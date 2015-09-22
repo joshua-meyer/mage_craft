@@ -14,9 +14,9 @@ module Base
             @game_board.move_piece(@game_piece,new_location)
           end
           break
-        rescue IllegalMove
+        rescue IllegalMove => e
           @game_board.print_board
-          puts "That's not a valid move. Press Ctrl + C to quit, or try again."
+          puts "#{e} Press Ctrl + C to quit, or try again."
         end
       end
       return "done"

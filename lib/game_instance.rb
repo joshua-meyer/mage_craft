@@ -4,11 +4,13 @@ game_board_path = File.expand_path("../game_board.rb",__FILE__); require game_bo
 module Base
   class GameInstance
 
-    def initialize(game_board,*characters)
-      @game_board = game_board
-      @characters = *characters
-      characters.each { |character| err_unless_piece_is_on_the_board(character,@game_board) }
+    def initialize(hash_args)
+      @game_board = hash_args[:game_board]
+      @characters = hash_args[:characters]
+      @characters.each { |character| err_unless_piece_is_on_the_board(character,@game_board) }
       @ncps = [] #Non-Character Pieces
+      @win_conditions = hash_args[:win_conditions]
+      @lose_conditions = hash_args[:lose_conditions]
 
       @game_board.print_board
       return "done"
@@ -23,10 +25,43 @@ module Base
     def do_round # Spells shouldn't move until the players have finished moving.
       [@characters,@ncps].each do |piece_list|
         piece_list.each do |piece|
-          piece.take_turn(@game_board) if @game_board.location_of_piece(piece) # *
-          @game_board.print_board
+          if @game_board.location_of_piece(piece) # *
+            piece.take_turn(@game_board)
+            @game_board.print_board
+          end
         end
       end
+    end
+
+    def play
+      loop do
+        self.do_round
+        if any_are_met(@lose_conditions)
+          lose_result
+          break
+        elsif any_are_met(@win_conditions)
+          win_result
+          break
+        end
+      end
+    end
+
+    def any_are_met(conditions)
+      return false unless conditions
+      conditions.each do |condition|
+        return true if condition.call
+      end
+      return false
+    end
+
+    def lose_result
+      puts "Oh no, you lost!".red
+      return ":("
+    end
+
+    def win_result
+      puts "Yay, you won!".green
+      return ":)"
     end
 
   # * A piece that is not on the board should not get a turn.

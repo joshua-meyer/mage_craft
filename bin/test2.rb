@@ -29,32 +29,38 @@ wall_locations.each do |wl|
 end
 
 door1 = GamePiece.new({
-  :controller =>  :base_controller,
-  :symbol =>      "||".light_magenta
+  :controller =>        :base_controller,
+  :symbol =>            "||".light_magenta,
+  :game_board =>        test_board,
+  :starting_position => [0,5]
 })
-test_board.place_piece(door1,[0,5])
 door2 = GamePiece.new({
-  :controller =>  :base_controller,
-  :symbol =>      "==".light_magenta
+  :controller =>        :base_controller,
+  :symbol =>            "==".light_magenta,
+  :game_board =>        test_board,
+  :starting_position => [11,16]
 })
-test_board.place_piece(door2,[11,16])
 victory = GamePiece.new({
-  :controller =>  :base_controller,
-  :symbol =>      "[]".green
+  :controller =>        :base_controller,
+  :symbol =>            "[]".green,
+  :game_board =>        test_board,
+  :starting_position => [10,20]
 })
-test_board.place_piece(victory,[10,20])
 
 test_piece = GamePiece.new({
-  :controller =>    :player,
-  :symbol =>        "TP",
-  :has_substance => true
+  :controller =>        :player,
+  :symbol =>            "TP".light_blue,
+  :has_substance =>     true,
+  :game_board =>        test_board,
+  :starting_position => [0,0]
 })
-test_board.place_piece(test_piece,[0,0])
 
-test_game = GameInstance.new(test_board,test_piece)
-loop do
-  test_game.do_round
-  break if test_board.location_of_piece(test_piece) == [10,20]
-end
+test_game = GameInstance.new({
+  :game_board => test_board,
+  :characters => [test_piece],
+  :win_conditions => [
+    Proc.new { test_board.location_of_piece(test_piece) == [10,20] }
+  ]
+})
 
-puts "Good job!"
+test_game.play

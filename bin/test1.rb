@@ -4,12 +4,17 @@ include Base
 
 test_board = GameBoard.new(20)
 test_piece = GamePiece.new({
-  :controller =>    :player,
-  :symbol =>        "TP",
-  :has_substance => true
+  :controller =>        :player,
+  :symbol =>            "TP".light_blue,
+  :has_substance =>     true,
+  :game_board =>        test_board,
+  :starting_position => [1,1]
 })
-test_board.place_piece(test_piece,[1,1])
-test_game = GameInstance.new(test_board,test_piece)
+
+test_game = GameInstance.new({
+  :game_board =>  test_board,
+  :characters => [test_piece]
+})
 
 loop do
   test_game.do_round
