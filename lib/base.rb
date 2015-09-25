@@ -6,7 +6,7 @@ module Base
   class FormatError < StandardError; end
 
   def blank_space
-    "[]"
+    "[]".light_black
   end
 
   def symbol_for_unknown_thing

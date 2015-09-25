@@ -1,11 +1,22 @@
 game_instance_file = File.expand_path("../../lib/game_instance.rb",__FILE__); require game_instance_file
+player_path = File.expand_path("../../lib/piece_controllers/player.rb",__FILE__); require player_path
 include Base
+
+module Base
+  class TestPlayer < Player
+    def get_input
+      puts "Use wasd to move, or space to rest."
+      gets.chomp.downcase
+    end
+  end
+end
 
 test_board = GameBoard.new(1,10)
 
 test_piece = GamePiece.new({
-  :controller =>        :player,
+  :controller =>        :test_player,
   :symbol =>            "TP".light_blue,
+  :manna =>             0,
   :game_board =>        test_board,
   :starting_position => [0,0]
 })

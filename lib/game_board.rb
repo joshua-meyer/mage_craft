@@ -5,6 +5,7 @@ module Base
   class GameBoard
 
     attr_reader :game_board
+    attr_accessor :game_instance
 
     # Where n is the number of rows and k is the number of columns.
     def initialize(n,k = n)
@@ -22,6 +23,7 @@ module Base
     end
 
     def print_board
+      puts ""
       @game_board.each_with_index do |row,i|
         row.each_index do |j|
           print symbol_at([i,j])
@@ -136,6 +138,16 @@ module Base
       @game_board[piece_loc[0]][piece_loc[1]] = blank_space
 
       return "done"
+    end
+
+    def distance(position1,position2)
+      err_unless_valid_location(position1)
+      err_unless_valid_location(position2)
+
+      vertical_distance = (position1[0] - position2[0]).abs
+      horizontal_distance = (position1[1] - position2[1]).abs
+
+      return vertical_distance + horizontal_distance
     end
 
   # * I'm using "IllegalMove" to mean,

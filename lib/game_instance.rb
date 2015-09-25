@@ -3,6 +3,8 @@ game_board_path = File.expand_path("../game_board.rb",__FILE__); require game_bo
 
 module Base
   class GameInstance
+    attr_reader :game_board, :characters, :win_conditions, :lose_conditions
+    attr_accessor :ncps
 
     def initialize(hash_args)
       @game_board = hash_args[:game_board]
@@ -12,6 +14,7 @@ module Base
       @win_conditions = hash_args[:win_conditions]
       @lose_conditions = hash_args[:lose_conditions]
 
+      @game_board.game_instance = self
       @game_board.print_board
       return "done"
     end

@@ -4,11 +4,8 @@ module Base
   class GoForward < BaseController
 
     def take
-      new_vertical = @current_location[0] + @game_piece.prps[0]
-      new_horizontal = @current_location[1] + @game_piece.prps[1]
-      new_position = [new_vertical,new_horizontal]
       begin
-        @game_board.move_piece(@game_piece,new_position)
+        @game_board.move_piece(@game_piece,square_directly_in_front_of_me)
       rescue IllegalMove
         @game_board.remove_piece(@game_piece)
       end

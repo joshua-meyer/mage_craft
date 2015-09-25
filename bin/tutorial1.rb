@@ -1,6 +1,16 @@
 base_path = File.expand_path("../../lib/base.rb",__FILE__); require base_path
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__); require file_path
+player_path = File.expand_path("../../lib/piece_controllers/player.rb",__FILE__); require player_path
 include Base
+
+module Base
+  class TestPlayer < Player
+    def get_input
+      puts "Use wasd to move."
+      gets.chomp.downcase
+    end
+  end
+end
 
 test_board = GameBoard.new(17,21)
 
@@ -30,13 +40,13 @@ end
 
 door1 = GamePiece.new({
   :controller =>        :base_controller,
-  :symbol =>            "||".light_magenta,
+  :symbol =>            "||".yellow,
   :game_board =>        test_board,
   :starting_position => [0,5]
 })
 door2 = GamePiece.new({
   :controller =>        :base_controller,
-  :symbol =>            "==".light_magenta,
+  :symbol =>            "==".yellow,
   :game_board =>        test_board,
   :starting_position => [11,16]
 })
@@ -48,9 +58,10 @@ victory = GamePiece.new({
 })
 
 test_piece = GamePiece.new({
-  :controller =>        :player,
+  :controller =>        :test_player,
   :symbol =>            "TP".light_blue,
   :has_substance =>     true,
+  :manna =>             0,
   :game_board =>        test_board,
   :starting_position => [0,0]
 })
