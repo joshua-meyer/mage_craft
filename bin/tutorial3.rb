@@ -1,5 +1,6 @@
-base_path = File.expand_path("../../lib/base.rb",__FILE__); require base_path
-file_path = File.expand_path("../../lib/game_instance.rb",__FILE__); require file_path
+file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
+require file_path
+
 include Base
 
 test_board = GameBoard.new(10,10)

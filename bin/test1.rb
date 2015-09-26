@@ -1,6 +1,9 @@
-base_path = File.expand_path("../../lib/base.rb",__FILE__); require base_path
-file_path = File.expand_path("../../lib/game_instance.rb",__FILE__); require file_path
-player_path = File.expand_path("../../lib/piece_controllers/player.rb",__FILE__); require player_path
+file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
+require file_path
+
+player_path = File.expand_path("../../lib/piece_controllers/player.rb",__FILE__)
+require player_path
+
 include Base
 
 module Base

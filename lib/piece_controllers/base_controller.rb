@@ -1,4 +1,5 @@
-base_path = File.expand_path("../../base.rb",__FILE__); require base_path
+game_instance_path = File.expand_path("../../game_instance.rb",__FILE__)
+require game_instance_path
 
 module Base
   class BaseController

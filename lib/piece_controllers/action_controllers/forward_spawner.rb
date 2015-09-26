@@ -1,4 +1,5 @@
-base_controller_file = File.expand_path("../../base_controller.rb",__FILE__); require base_controller_file
+base_controller_file = File.expand_path("../../base_controller.rb",__FILE__)
+require base_controller_file
 
 module Base
   class ForwardSpawner < BaseController

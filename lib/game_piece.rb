@@ -1,5 +1,11 @@
-piece_utils_path = File.expand_path("../utils/game_piece_utils.rb",__FILE__); require piece_utils_path
-base_path = File.expand_path("../base.rb",__FILE__); require base_path
+base_path = File.expand_path("../base.rb",__FILE__)
+require base_path
+
+piece_utils_path = File.expand_path("../utils/game_piece_utils.rb",__FILE__)
+require piece_utils_path
+
+game_board_path = File.expand_path("../game_board.rb",__FILE__)
+require game_board_path
 
 module Base
   class GamePiece
@@ -51,7 +57,7 @@ module Base
         :parent_piece =>      self,
         :starting_position => location
       })
-      @game_board.game_instance.ncps << new_piece
+      @game_board.game_instance.ncps << new_piece if @game_board.game_instance
 
       return "done"
     end
