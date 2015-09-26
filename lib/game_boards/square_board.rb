@@ -8,6 +8,8 @@ module Base
   class SquareGameBoard < BaseGameBoard
     include SquareBoardUtils
 
+    BLANK_SPACE = "[]".light_black
+
     def generate_board(n,k = n)
       row = []
       for i in (0...k)

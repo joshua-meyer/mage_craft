@@ -6,10 +6,10 @@ module Base
       thing = fetch_location(location)
       if thing.is_a? GamePiece
         symbol = thing.symbol
-      elsif thing == BLANK_SPACE
-        symbol = BLANK_SPACE
+      elsif thing == self.class::BLANK_SPACE
+        symbol = self.class::BLANK_SPACE
       else
-        symbol = SYMBOL_FOR_UNKNOWN
+        symbol = self.class::SYMBOL_FOR_UNKNOWN
       end
       return symbol.on_black
     end
@@ -17,7 +17,7 @@ module Base
     def piece_at(location)
       err_unless_valid_location(location)
       thing = fetch_location(location)
-      if thing == BLANK_SPACE
+      if thing == self.class::BLANK_SPACE
         return nil
       elsif thing.is_a? GamePiece
         return thing
