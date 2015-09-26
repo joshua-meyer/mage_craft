@@ -11,7 +11,7 @@ module Base
   class GamePiece
     include GamePieceUtils
 
-    attr_reader :controller, :symbol, :game_board, :has_substance, :manna, :parent_piece, :prps, :spells
+    attr_reader :controller, :symbol, :game_board, :has_substance, :manna, :parent_piece, :vfps, :spells
 
     def initialize(hash_args)
       require_controller_file(hash_args[:controller])
@@ -23,8 +23,8 @@ module Base
       @game_board = hash_args[:game_board]
       @game_board.place_piece(self,hash_args[:starting_position]) if hash_args[:starting_position]
       @parent_piece = hash_args[:parent_piece]
-      # PRPS: Position Relative to Parent when Spawned
-      @prps = position_relative_to(@parent_piece) if @parent_piece
+      # VFPS: Vector From Parent when Spawned
+      @vfps = vector_from_piece(@parent_piece) if @parent_piece
       @spells = hash_args[:spells]
     end
 

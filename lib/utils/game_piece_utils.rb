@@ -15,12 +15,10 @@ module Base
       return Kernel.const_get(class_name.to_sym)
     end
 
-    def position_relative_to(piece)
+    def vector_from_piece(piece)
       my_position = @game_board.location_of_piece(self)
       other_position = @game_board.location_of_piece(piece)
-      vertical = my_position[0] - other_position[0]
-      horizontal = my_position[1] - other_position[1]
-      return [vertical,horizontal]
+      @game_board.vector_from_location_to_location(other_position,my_position)
     end
 
     def give_mp!(n)
@@ -45,14 +43,10 @@ module Base
     end
 
     def err_unless_adjacent_to(position)
-      unless my_distance_from(position) == 1
+      my_position = @game_board.location_of_piece(self)
+      unless @game_board.are_2_locations_adjacent?(my_position,position)
         raise IllegalMove, "Not adjacent to #{position}."
       end
-    end
-
-    def my_distance_from(location)
-      my_position = @game_board.location_of_piece(self)
-      return @game_board.distance(my_position,location)
     end
 
   end

@@ -62,6 +62,11 @@ module Base
       end
     end
 
+    def vector_from_location_to_location(from_loc,to_loc)
+      [from_loc,to_loc].each { |loc| err_unless_valid_location(loc) }
+      return vector_between_valid_locations(from_loc,to_loc)
+    end
+
     def generate_board(parameters)
       raise NameError, "Implement me!"
     end

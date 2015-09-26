@@ -40,5 +40,31 @@ module Base
       return vertical_distance + horizontal_distance
     end
 
+    def are_2_valid_locations_adjacent(position1,position2)
+      distance_between_2_valid_locations(position1,position2)
+    end
+
+    def vector_between_valid_locations(from_loc,to_loc)
+      vertical = to_loc[0] - from_loc[0]
+      horizontal = to_loc[1] - from_loc[1]
+      return [vertical,horizontal]
+    end
+
+    def apply_vector_to_position(vector,position)
+      new_vertical = position[0] + vector[0]
+      new_horizontal = position[1] + vector[1]
+      return [new_vertical,new_horizontal]
+    end
+
+    def map_keyboard_keys_to_adjacent_positions(current_position) # For the player controller
+      map = {
+        "w" => [current_position[0] - 1, current_position[1]],
+        "a" => [current_position[0], current_position[1] - 1],
+        "s" => [current_position[0] + 1, current_position[1]],
+        "d" => [current_position[0], current_position[1] + 1]
+      }
+      return map
+    end
+
   end
 end

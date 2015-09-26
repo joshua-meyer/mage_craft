@@ -38,7 +38,13 @@ module Base
     def distance(position1,position2)
       err_unless_valid_location(position1)
       err_unless_valid_location(position2)
-      distance_between_2_valid_locations(position1,position2)
+      return distance_between_2_valid_locations(position1,position2)
+    end
+
+    def are_2_locations_adjacent?(position1,position2)
+      err_unless_valid_location(position1)
+      err_unless_valid_location(position2)
+      return are_2_valid_locations_adjacent(position1,position2)
     end
 
     def err_unless_valid_location(location)
@@ -65,6 +71,24 @@ module Base
 
     def distance_between_2_valid_locations(location1,location2)
       raise NameError, "Implement me!"
+    end
+
+    def are_2_valid_locations_adjacent?(position1,position2)
+      raise NameError, "Implement me!"
+    end
+
+    def vector_between_valid_locations(from_loc,to_loc)
+      raise NameError, "Implement me!"
+    end
+
+    def apply_vector_to_position(vector,position)
+      raise NameError, "Implement me!"
+    end
+
+    def map_keyboard_keys_to_adjacent_positions(current_position) # For the player controller
+      {
+        nil => nil
+      }
     end
 
   # * I'm using "IllegalMove" to mean,
