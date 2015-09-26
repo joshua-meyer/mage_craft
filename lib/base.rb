@@ -30,4 +30,10 @@ module Base
     end
   end
 
+  def err_unless_game_piece(object)
+    unless object.is_a? GamePiece
+      raise IllegalMove, "#{object} is not a valid game piece" # *
+    end
+  end
+
 end

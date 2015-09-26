@@ -1,9 +1,12 @@
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
 require file_path
 
+square_board_path = File.expand_path("../../lib/game_boards/square_board.rb",__FILE__)
+require square_board_path
+
 include Base
 
-test_board = GameBoard.new(10,10)
+test_board = SquareGameBoard.new(10,10)
 
 wall = GamePiece.new({
   :controller =>    :base_controller,

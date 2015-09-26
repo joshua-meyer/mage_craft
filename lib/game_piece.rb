@@ -4,7 +4,7 @@ require base_path
 piece_utils_path = File.expand_path("../utils/game_piece_utils.rb",__FILE__)
 require piece_utils_path
 
-game_board_path = File.expand_path("../game_board.rb",__FILE__)
+game_board_path = File.expand_path("../base_game_board.rb",__FILE__)
 require game_board_path
 
 module Base

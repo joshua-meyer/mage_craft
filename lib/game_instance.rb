@@ -4,7 +4,7 @@ require base_path
 instance_utils_path = File.expand_path("../utils/game_instance_utils.rb",__FILE__)
 require instance_utils_path
 
-game_board_path = File.expand_path("../game_board.rb",__FILE__)
+game_board_path = File.expand_path("../base_game_board.rb",__FILE__)
 require game_board_path
 
 module Base
@@ -24,7 +24,7 @@ module Base
       @if_win_do = hash_args[:if_win_do] || DEFAULT_IF_WIN_DO
       @if_lose_do = hash_args[:if_lose_do] || DEFAULT_IF_LOSE_DO
 
-      @game_board.game_instance = self
+      @game_board.set_game_instance(self)
       return "done"
     end
 

@@ -1,61 +1,31 @@
 base_path = File.expand_path("../base.rb",__FILE__)
 require base_path
 
-board_utils_path = File.expand_path("../utils/game_board_utils.rb",__FILE__)
+board_utils_path = File.expand_path("../utils/base_game_board_utils.rb",__FILE__)
 require board_utils_path
 
 game_piece_path = File.expand_path("../game_piece.rb",__FILE__)
 require game_piece_path
 
-module Base
-  class GameBoard
-    include GameBoardUtils
+game_instance_path = File.expand_path("../game_instance.rb",__FILE__)
+require game_instance_path
 
-    attr_reader :game_board
-    attr_accessor :game_instance
+module Base
+  class BaseGameBoard
+    include BaseGameBoardUtils
+    attr_reader :game_board, :game_instance
 
     # Where n is the number of rows and k is the number of columns.
-    def initialize(n,k = n)
-      row = []
-      for i in (0...k)
-        row << BLANK_SPACE
-      end
-      board = []
-      for i in (0...n)
-        # Using Marshal to create a deep copy.
-        board << Marshal.load(Marshal.dump(row))
-      end
+    def initialize(*parameters)
+      board = generate_board(*parameters)
       @game_board = board
       return "done"
-    end
-
-    def print_board
-      puts ""
-      @game_board.each_with_index do |row,i|
-        row.each_index do |j|
-          print symbol_at([i,j])
-        end
-        puts ""
-      end
-      return "done"
-    end
-
-    # I'm expecting game boards to be relatively small, with relatively few pieces.
-    def location_of_piece(game_piece)
-      @game_board.each_with_index do |row,i|
-        row.each_with_index do |piece,j|
-          return [i,j] if piece == game_piece
-        end
-      end
-      return nil
     end
 
     def place_piece(piece,location)
       err_unless_game_piece(piece)
       err_unless_valid_location(location)
-
-      @game_board[location[0]][location[1]] = piece
-
+      set_location_to_piece(location,piece)
       return "done"
     end
 
@@ -69,24 +39,35 @@ module Base
       unless is_enterable?(to)
         raise IllegalMove, "Location #{to} contains #{piece_at(to)}" # *
       end
-
-      @game_board[to[0]][to[1]] = piece
-      @game_board[from[0]][from[1]] = BLANK_SPACE
-
+      set_location_to_piece(to,piece)
+      set_location_to_piece(from,BLANK_SPACE)
       return "done"
     end
 
     def remove_piece(piece)
       err_unless_game_piece(piece)
-
       piece_loc = location_of_piece(piece)
       unless piece_loc
         raise IllegalMove, "#{piece} is not in play" # *
       end
-
-      @game_board[piece_loc[0]][piece_loc[1]] = BLANK_SPACE
-
+      set_location_to_piece(piece_loc,BLANK_SPACE)
       return "done"
+    end
+
+    def set_game_instance(instance)
+      if instance.is_a? GameInstance
+        @game_instance = instance
+      else
+        raise ArgumentError, "#{instance} is not a GameInstance"
+      end
+    end
+
+    def generate_board(parameters)
+      raise NameError, "Implement me!"
+    end
+
+    def print_board
+      raise NameError, "Implement me!"
     end
 
   # * I'm using "IllegalMove" to mean,

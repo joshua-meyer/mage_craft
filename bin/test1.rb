@@ -1,6 +1,9 @@
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
 require file_path
 
+square_board_path = File.expand_path("../../lib/game_boards/square_board.rb",__FILE__)
+require square_board_path
+
 player_path = File.expand_path("../../lib/piece_controllers/player.rb",__FILE__)
 require player_path
 
@@ -15,7 +18,7 @@ module Base
   end
 end
 
-test_board = GameBoard.new(20)
+test_board = SquareGameBoard.new(20)
 test_piece = GamePiece.new({
   :controller =>        :test_player,
   :symbol =>            "TP".light_blue,
