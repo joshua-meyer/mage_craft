@@ -4,6 +4,7 @@ module Base
   class Player < BaseController
 
     def take
+      @game_board.print_board
       @looping = true
       while @looping
         input = get_input
@@ -90,7 +91,8 @@ module Base
           @game_piece.spawn_piece(spell,spell_location)
           @looping = false
           break
-        rescue IllegalMove => e
+        rescue IllegalMove, ArgumentError => e
+          @game_board.print_board
           puts "#{e} Press q to not cast a spell, or try again."
           @looping = true
         end

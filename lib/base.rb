@@ -5,23 +5,17 @@ module Base
   class IllegalMove < StandardError; end
   class FormatError < StandardError; end
 
-  def blank_space
-    "[]".light_black
-  end
-
-  def symbol_for_unknown_thing
-    "??".red
-  end
-
-  def reserved_symbols
-    [blank_space,symbol_for_unknown_thing]
-  end
+  BLANK_SPACE = "[]".light_black
+  SYMBOL_FOR_UNKNOWN = "??".red
+  RESERVED_SYMBOLS = [BLANK_SPACE,SYMBOL_FOR_UNKNOWN]
+  DEFAULT_IF_LOSE_DO = Proc.new { puts "Oh no, you lost!".red }
+  DEFAULT_IF_WIN_DO = Proc.new { puts "Yay, you won!".green }
 
   def is_valid_symbol?(symbol)
     begin
       return false unless symbol.is_a? String
       return false unless symbol.uncolorize.length == 2 # Needs to be the same width as blank_space
-      return false if reserved_symbols.include? symbol
+      return false if RESERVED_SYMBOLS.include? symbol
       return true
     rescue TypeError
       return false

@@ -1,8 +1,10 @@
+instance_utils_path = File.expand_path("../utils/game_instance_utils.rb",__FILE__); require instance_utils_path
 base_path = File.expand_path("../base.rb",__FILE__); require base_path
 game_board_path = File.expand_path("../game_board.rb",__FILE__); require game_board_path
 
 module Base
   class GameInstance
+    include GameInstanceUtils
     attr_reader :game_board, :characters, :win_conditions, :lose_conditions
     attr_accessor :ncps
 
@@ -13,24 +15,20 @@ module Base
       @ncps = [] #Non-Character Pieces
       @win_conditions = hash_args[:win_conditions]
       @lose_conditions = hash_args[:lose_conditions]
+      @print_board_each_round = hash_args[:print_board_each_round]
+      @if_win_do = hash_args[:if_win_do] || DEFAULT_IF_WIN_DO
+      @if_lose_do = hash_args[:if_lose_do] || DEFAULT_IF_LOSE_DO
 
       @game_board.game_instance = self
-      @game_board.print_board
       return "done"
     end
 
-    def err_unless_piece_is_on_the_board(piece,board)
-      unless board.location_of_piece(piece)
-        raise IllegalMove, "Character #{piece} is not on the board"
-      end
-    end
-
     def do_round # Spells shouldn't move until the players have finished moving.
+      @game_board.print_board if @print_board_each_round
       [@characters,@ncps].each do |piece_list|
         piece_list.each do |piece|
-          if @game_board.location_of_piece(piece) # *
+          if @game_board.location_of_piece(piece)
             piece.take_turn(@game_board)
-            @game_board.print_board
           end
         end
       end
@@ -40,33 +38,16 @@ module Base
       loop do
         self.do_round
         if any_are_met(@lose_conditions)
-          lose_result
+          @game_board.print_board
+          @if_lose_do.call
           break
         elsif any_are_met(@win_conditions)
-          win_result
+          @game_board.print_board
+          @if_win_do.call
           break
         end
       end
     end
 
-    def any_are_met(conditions)
-      return false unless conditions
-      conditions.each do |condition|
-        return true if condition.call
-      end
-      return false
-    end
-
-    def lose_result
-      puts "Oh no, you lost!".red
-      return ":("
-    end
-
-    def win_result
-      puts "Yay, you won!".green
-      return ":)"
-    end
-
-  # * A piece that is not on the board should not get a turn.
   end
 end
