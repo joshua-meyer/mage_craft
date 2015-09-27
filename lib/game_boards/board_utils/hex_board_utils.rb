@@ -24,7 +24,7 @@ module Base
     def distance_between_2_valid_locations(location1,location2)
       loc1 = hex_shift(location1)
       loc2 = hex_shift(location2)
-      vertical = ((loc1[0] - loc2[0]).abs + 1).to_i
+      vertical = (loc1[0] - loc2[0]).abs.ceil
       horizontal = (loc1[1] - loc2[1]).abs
       return [vertical, horizontal].max
     end
