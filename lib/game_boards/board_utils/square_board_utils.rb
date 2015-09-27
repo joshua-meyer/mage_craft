@@ -1,7 +1,7 @@
 module Base
   module SquareBoardUtils
 
-    def set_location_to_piece(location,piece)
+    def set_location_of_piece(location,piece)
       @game_board[location[0]][location[1]] = piece
     end
 
@@ -26,6 +26,18 @@ module Base
         return false if location[0] < 0 or location[0] >= @game_board.count
         row = @game_board[location[0]]
         return false if location[1] < 0 or location[1] >= row.count
+        return true
+      rescue TypeError
+        return false
+      rescue NoMethodError
+        return false
+      end
+    end
+
+    def is_valid_symbol?(symbol)
+      begin
+        return false unless symbol.is_a? String
+        return false unless symbol.uncolorize.length == 2 # To prevent screen tearing
         return true
       rescue TypeError
         return false

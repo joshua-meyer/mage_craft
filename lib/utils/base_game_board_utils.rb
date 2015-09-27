@@ -11,7 +11,7 @@ module Base
       else
         symbol = self.class::SYMBOL_FOR_UNKNOWN
       end
-      return symbol.on_black
+      return symbol
     end
 
     def piece_at(location)
@@ -53,7 +53,13 @@ module Base
       end
     end
 
-    def set_location_to_piece(location,piece)
+    def err_unless_symbol_is_valid(game_symbol)
+      unless is_valid_symbol?(game_symbol)
+        raise FormatError, "#{game_symbol} is not a valid symbol"
+      end
+    end
+
+    def set_location_of_piece(location,piece)
       raise NameError, "Implement me!"
     end
 
@@ -62,6 +68,10 @@ module Base
     end
 
     def is_valid_location?(location)
+      raise NameError, "Implement me!"
+    end
+
+    def is_valid_symbol?(symbol)
       raise NameError, "Implement me!"
     end
 

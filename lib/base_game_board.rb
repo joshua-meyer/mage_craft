@@ -14,7 +14,6 @@ module Base
   class BaseGameBoard
     include BaseGameBoardUtils
     attr_reader :game_board, :game_instance
-
     BLANK_SPACE = "##".light_black
 
     # Where n is the number of rows and k is the number of columns.
@@ -27,7 +26,7 @@ module Base
     def place_piece(piece,location)
       err_unless_game_piece(piece)
       err_unless_valid_location(location)
-      set_location_to_piece(location,piece)
+      set_location_of_piece(location,piece)
       return "done"
     end
 
@@ -41,8 +40,8 @@ module Base
       unless is_enterable?(to)
         raise IllegalMove, "Location #{to} contains #{piece_at(to)}" # *
       end
-      set_location_to_piece(to,piece)
-      set_location_to_piece(from,self.class::BLANK_SPACE)
+      set_location_of_piece(to,piece)
+      set_location_of_piece(from,self.class::BLANK_SPACE)
       return "done"
     end
 
@@ -52,7 +51,7 @@ module Base
       unless piece_loc
         raise IllegalMove, "#{piece} is not in play" # *
       end
-      set_location_to_piece(piece_loc,self.class::BLANK_SPACE)
+      set_location_of_piece(piece_loc,self.class::BLANK_SPACE)
       return "done"
     end
 

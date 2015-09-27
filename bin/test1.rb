@@ -18,7 +18,7 @@ module Base
   end
 end
 
-test_board = SquareGameBoard.new(20)
+test_board = SquareGameBoard.new(10)
 test_piece = GamePiece.new({
   :controller =>        :test_player,
   :symbol =>            "TP".light_blue,

@@ -7,13 +7,12 @@ require square_utils_path
 module Base
   class SquareGameBoard < BaseGameBoard
     include SquareBoardUtils
-
     BLANK_SPACE = "[]".light_black
 
     def generate_board(n,k = n)
       row = []
       for i in (0...k)
-        row << BLANK_SPACE
+        row << self.class::BLANK_SPACE
       end
       board = []
       for i in (0...n)
@@ -27,7 +26,7 @@ module Base
       puts ""
       @game_board.each_with_index do |row,i|
         row.each_index do |j|
-          print symbol_at([i,j])
+          print symbol_at([i,j]).on_black
         end
         puts ""
       end

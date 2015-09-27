@@ -16,11 +16,11 @@ module Base
     def initialize(hash_args)
       require_controller_file(hash_args[:controller])
       @controller = fetch_class_from_symbol(hash_args[:controller])
-      @symbol = hash_args[:symbol] || @controller.default_symbol
-      err_unless_symbol_is_valid(@symbol)
       @has_substance = hash_args[:has_substance]
       @manna = hash_args[:manna]
       @game_board = hash_args[:game_board]
+      @symbol = hash_args[:symbol] || @controller.default_symbol
+      @game_board.err_unless_symbol_is_valid(@symbol) if @game_board
       @game_board.place_piece(self,hash_args[:starting_position]) if hash_args[:starting_position]
       @parent_piece = hash_args[:parent_piece]
       # VFPS: Vector From Parent when Spawned
