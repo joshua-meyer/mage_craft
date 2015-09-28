@@ -13,5 +13,9 @@ module Base
       return "done"
     end
 
+    def self.default_manna_cost
+      1
+    end
+
   end
 end

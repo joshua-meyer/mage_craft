@@ -60,39 +60,47 @@ module Base
     end
 
     def set_location_of_piece(location,piece)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def location_of_piece(game_piece)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def is_valid_location?(location)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def is_valid_symbol?(symbol)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def fetch_location(location)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def distance_between_2_valid_locations(location1,location2)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def are_2_valid_locations_adjacent?(position1,position2)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def vector_between_valid_locations(from_loc,to_loc)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def apply_vector_to_position(vector,position)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
+    end
+
+    def rotate_positive(vector)
+      raise NoMethodError, "Implement me!"
+    end
+
+    def rotate_negative(vector)
+      raise NoMethodError, "Implement me!"
     end
 
     def map_keyboard_keys_to_adjacent_positions(current_position) # For the player controller

@@ -43,19 +43,24 @@ module Base
     end
 
     def cast_spell
-      puts "Select a spell to cast:"
-      loop do
-        spell_selection = get_spell_selection
-        if @game_piece.spells.has_key?(spell_selection)
-          break if select_spell_location(spell_selection) == "done"
-        elsif spell_selection.downcase == "q"
-          return "quit"
-        else
-          puts "That's not a spell in your inventory."
-          puts "Select a spell to cast, or enter q to not cast a spell."
+      if @game_piece.spells
+        puts "Select a spell to cast:"
+        loop do
+          spell_selection = get_spell_selection
+          if @game_piece.spells.has_key?(spell_selection)
+            break if select_spell_location(spell_selection) == "done"
+          elsif spell_selection.downcase == "q"
+            return "quit"
+          else
+            puts "That's not a spell in your inventory."
+            puts "Select a spell to cast, or enter q to not cast a spell."
+          end
         end
+        return "done"
+      else
+        puts "You don't have any spells"
+        return "quit"
       end
-      return "done"
     end
 
     def get_spell_selection

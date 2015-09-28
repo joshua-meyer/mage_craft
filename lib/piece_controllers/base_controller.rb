@@ -8,6 +8,8 @@ module Base
       @game_board = hash_args[:game_board]
       @game_piece = hash_args[:game_piece]
       @current_location = current_location(@game_board,@game_piece)
+      @sub_controllers = hash_args[:sub_controllers]
+      @sensor_readings = hash_args[:sensor_readings]
 
       secondary_initialization
     end
@@ -33,7 +35,7 @@ module Base
     end
 
     def take
-      return "implement me"
+      raise NoMethodError, "Implement me!"
     end
 
     def square_directly_in_front_of_me

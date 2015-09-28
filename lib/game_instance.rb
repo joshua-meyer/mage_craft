@@ -10,7 +10,7 @@ require game_board_path
 module Base
   class GameInstance
     include GameInstanceUtils
-    attr_reader :game_board, :characters, :win_conditions, :lose_conditions
+    attr_reader :game_board, :characters, :win_conditions, :lose_conditions, :turn_number
     attr_accessor :ncps
 
     def initialize(hash_args)
@@ -29,6 +29,7 @@ module Base
     end
 
     def do_round # Spells shouldn't move until the players have finished moving.
+      @turn_number += 1 if @turn_number
       @game_board.print_board if @print_board_each_round
       [@characters,@ncps].each do |piece_list|
         piece_list.each do |piece|
@@ -40,6 +41,7 @@ module Base
     end
 
     def play
+      @turn_number = 0
       loop do
         self.do_round
         if any_are_met(@lose_conditions)

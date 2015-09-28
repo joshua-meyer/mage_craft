@@ -1,3 +1,5 @@
+require 'matrix'
+
 module Base
   module SquareBoardUtils
 
@@ -76,6 +78,16 @@ module Base
         "d" => [current_position[0], current_position[1] + 1]
       }
       return map
+    end
+
+    def rotate_positive(vector)
+      m = Matrix[vector] * Matrix[[0,-1],[1,0]] # Rotates by 90 degrees
+      return m.row(0).to_a # Extracts array from matrix
+    end
+
+    def rotate_negative(vector)
+      m = Matrix[vector] * Matrix[[0,1],[-1,0]] # Rotates by 90 degrees
+      return m.row(0).to_a # Extracts array from matrix
     end
 
   end

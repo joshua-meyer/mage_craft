@@ -69,11 +69,11 @@ module Base
     end
 
     def generate_board(parameters)
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
     def print_board
-      raise NameError, "Implement me!"
+      raise NoMethodError, "Implement me!"
     end
 
   # * I'm using "IllegalMove" to mean,

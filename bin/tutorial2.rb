@@ -20,24 +20,36 @@ end
 
 test_board = SquareGameBoard.new(1,10)
 
+PLAYER_CONTROLLER = {
+  :function => :test_player
+}
+
 test_piece = GamePiece.new({
-  :controller =>        :test_player,
+  :controller =>        PLAYER_CONTROLLER,
   :symbol =>            "TP".light_blue,
   :manna =>             0,
   :game_board =>        test_board,
   :starting_position => [0,0]
 })
 
+BASE_CONTROLLER = {
+  :function => :base_controller
+}
+
 spawner = GamePiece.new({
-  :controller =>        :base_controller,
+  :controller =>        BASE_CONTROLLER,
   :symbol =>            "##".black,
   :has_substance =>      true,
   :game_board =>        test_board,
   :starting_position => [0,9]
 })
 
+GO_FORWARD_CONTROLLER = {
+  :function => :go_forward
+}
+
 red_missile = GamePiece.new({
-  :controller =>        :go_forward,
+  :controller =>        GO_FORWARD_CONTROLLER,
   :symbol =>            "<-".red,
   :game_board =>        test_board,
   :starting_position => [0,8],

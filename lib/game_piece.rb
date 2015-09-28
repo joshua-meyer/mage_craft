@@ -11,11 +11,13 @@ module Base
   class GamePiece
     include GamePieceUtils
 
-    attr_reader :controller, :symbol, :game_board, :has_substance, :manna, :parent_piece, :vfps, :spells
+    attr_reader :controller, :symbol, :game_board, :has_substance, :manna, :parent_piece,
+    :vfps, :vfps_updatable, :spells, :sensors, :turn_spawned
 
     def initialize(hash_args)
-      require_controller_file(hash_args[:controller])
-      @controller = fetch_class_from_symbol(hash_args[:controller])
+      @controller = load_controller_class_from_symbol(hash_args[:controller][:function])
+      @sub_controllers = hash_args[:controller][:arguments]
+      @sensors = load_sensors(hash_args[:controller][:sensors])
       @has_substance = hash_args[:has_substance]
       @manna = hash_args[:manna]
       @game_board = hash_args[:game_board]
@@ -26,14 +28,52 @@ module Base
       # VFPS: Vector From Parent when Spawned
       @vfps = vector_from_piece(@parent_piece) if @parent_piece
       @spells = hash_args[:spells]
+      @vfps_updatable = false
+      @turn_spawned = current_turn
+    end
+
+    def load_sensors(sensor_list)
+      sensors = {}
+      if sensor_list
+        sensor_list.each do |sensor|
+          sensors[sensor] = load_controller_class_from_symbol(sensor)
+        end
+      end
+      return sensors
     end
 
     def take_turn(game_board)
+      sensor_readings = take_readings(@sensors)
       turn = @controller.new({
         :game_board =>  game_board,
-        :game_piece =>  self
+        :game_piece =>  self,
+        :sensor_readings => sensor_readings, # Should at least be an empty hash
+        :sub_controllers => @sub_controllers
       })
-      return turn.take
+      @vfps_updatable = true
+      response =  turn.take
+      @vfps_updatable = false
+      return response
+    end
+
+    def take_readings(sensor_hash)
+      results = {}
+      sensor_hash.each do |name,sensor|
+        reading = sensor.new({
+          :game_board => game_board,
+          :game_piece => self
+        })
+        results[name] = reading.take
+      end
+      return results
+    end
+
+    def update_vfps(new_vfps)
+      if @vfps_updatable
+        @vfps = new_vfps
+      else
+        raise NoMethodError, "method `update_vfps' not accessible at the time it was called"
+      end
     end
 
     def spawn_piece(spell,location)

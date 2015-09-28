@@ -20,8 +20,12 @@ end
 
 test_board = SquareGameBoard.new(17,21)
 
+BASE_CONTROLLER = {
+  :function => :base_controller
+}
+
 wall = GamePiece.new({
-  :controller =>    :base_controller,
+  :controller =>    BASE_CONTROLLER,
   :symbol =>        "##".black,
   :has_substance => true
 })
@@ -45,26 +49,30 @@ wall_locations.each do |wl|
 end
 
 door1 = GamePiece.new({
-  :controller =>        :base_controller,
+  :controller =>        BASE_CONTROLLER,
   :symbol =>            "||".yellow,
   :game_board =>        test_board,
   :starting_position => [0,5]
 })
 door2 = GamePiece.new({
-  :controller =>        :base_controller,
+  :controller =>        BASE_CONTROLLER,
   :symbol =>            "==".yellow,
   :game_board =>        test_board,
   :starting_position => [11,16]
 })
 victory = GamePiece.new({
-  :controller =>        :base_controller,
+  :controller =>        BASE_CONTROLLER,
   :symbol =>            "[]".green,
   :game_board =>        test_board,
   :starting_position => [10,20]
 })
 
+PLAYER_CONTROLLER = {
+  :function => :test_player
+}
+
 test_piece = GamePiece.new({
-  :controller =>        :test_player,
+  :controller =>        PLAYER_CONTROLLER,
   :symbol =>            "TP".light_blue,
   :has_substance =>     true,
   :manna =>             0,

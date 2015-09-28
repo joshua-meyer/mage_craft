@@ -77,5 +77,13 @@ module Base
       end
     end
 
+    def rotate_positive(vector)
+      raise NoMethodError, "Implement me!" # TODO
+    end
+
+    def rotate_negative(vector)
+      raise NoMethodError, "Implement me!" # TODO
+    end
+
   end
 end

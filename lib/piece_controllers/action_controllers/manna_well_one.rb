@@ -14,7 +14,7 @@ module Base
     end
 
     def self.default_manna_cost
-      1
+      2
     end
 
   end
