@@ -3,11 +3,21 @@ require base_controller_file
 
 module Base
   class EveryNthTurn < BaseController
-    N = nil
+    attr_reader :n
+
+    def secondary_initialization
+      @n = nil
+    end
 
     def take
-      return (@game_board.game_instance.turn_number - @game_piece.turn_spawned) % self.class::N == 0
+      return (@game_board.game_instance.turn_number - @game_piece.turn_spawned) % @n == 0
+    end
+
+    def self.construct(n)
+      Class.new(self) do
+      end
     end
 
   end
+
 end

@@ -4,16 +4,15 @@ require file_path
 square_board_path = File.expand_path("../../lib/game_boards/square_board.rb",__FILE__)
 require square_board_path
 
-player_path = File.expand_path("../../lib/piece_controllers/player.rb",__FILE__)
+player_path = File.expand_path("../../lib/piece_controllers/player/player.rb",__FILE__)
 require player_path
 
 include Base
 
 module Base
   class TestPlayer < Player
-    def get_input
-      puts "Use wasd to move, or space to rest."
-      gets.chomp.downcase
+    def standard_message
+      "Use wasd to move, or space to rest."
     end
   end
 end
@@ -26,7 +25,11 @@ PLAYER_CONTROLLER = {
 
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
-  :symbol =>            "TP".light_blue,
+  :symbol => {
+    shape: "TP",
+    color: Curses::COLOR_CYAN,
+    attribute: Curses::A_NORMAL
+  },
   :manna =>             0,
   :game_board =>        test_board,
   :starting_position => [0,0]
@@ -38,8 +41,11 @@ BASE_CONTROLLER = {
 
 spawner = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
-  :symbol =>            "##".black,
-  :has_substance =>      true,
+  :symbol => {
+    shape:     "  ",
+    color:     Curses::COLOR_WHITE,
+    attribute: Curses::A_INVIS
+  },
   :game_board =>        test_board,
   :starting_position => [0,9]
 })
@@ -50,7 +56,11 @@ GO_FORWARD_CONTROLLER = {
 
 red_missile = GamePiece.new({
   :controller =>        GO_FORWARD_CONTROLLER,
-  :symbol =>            "<-".red,
+  :symbol => {
+    shape: "<-",
+    color: Curses::COLOR_RED,
+    attribute: Curses::A_BOLD
+  },
   :game_board =>        test_board,
   :starting_position => [0,8],
   :parent_piece =>      spawner

@@ -16,7 +16,7 @@ module Base
     def initialize(hash_args)
       @game_board = hash_args[:game_board]
       @characters = hash_args[:characters]
-      @characters.each { |character| err_unless_piece_is_on_the_board(character,@game_board) }
+      @characters.each { |character| err_unless_piece_is_on_the_board(character, @game_board) }
       @ncps = [] #Non-Character Pieces
       @win_conditions = hash_args[:win_conditions]
       @lose_conditions = hash_args[:lose_conditions]
@@ -31,7 +31,7 @@ module Base
     def do_round # Spells shouldn't move until the players have finished moving.
       @turn_number += 1 if @turn_number
       @game_board.print_board if @print_board_each_round
-      [@characters,@ncps].each do |piece_list|
+      [@characters, @ncps].each do |piece_list|
         piece_list.each do |piece|
           if @game_board.location_of_piece(piece)
             piece.take_turn(@game_board)
@@ -45,12 +45,10 @@ module Base
       loop do
         self.do_round
         if any_are_met(@lose_conditions)
-          @game_board.print_board
-          @if_lose_do.call
+          @if_lose_do.call(self)
           break
         elsif any_are_met(@win_conditions)
-          @game_board.print_board
-          @if_win_do.call
+          @if_win_do.call(self)
           break
         end
       end

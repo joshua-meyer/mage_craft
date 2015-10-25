@@ -14,7 +14,11 @@ FIRE_BALL_CONTROLLER = {
 
 FIRE_BALL = {
   :controller => FIRE_BALL_CONTROLLER,
-  :symbol => "@@".red,
+  :symbol => {
+    shape: "@@",
+    color: Curses::COLOR_RED,
+    attribute: Curses::A_NORMAL
+  },
   :game_board => test_board,
   :manna_cost => 1
 }
@@ -43,7 +47,11 @@ STAIR_CONTROLLER = {
 
 STAIR_WALKER = {
   :controller =>  STAIR_CONTROLLER,
-  :symbol =>      "@@".red,
+  :symbol => {
+    shape: "@@",
+    color: Curses::COLOR_RED,
+    attribute: Curses::A_NORMAL
+  },
   :game_board =>  test_board,
   :manna_cost =>  1
 }
@@ -54,7 +62,6 @@ PLAYER_CONTROLLER = {
 
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
-  :symbol =>            "TP".light_blue,
   :has_substance =>     true,
   :manna =>             0,
   :game_board =>        test_board,

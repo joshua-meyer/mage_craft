@@ -3,6 +3,10 @@ require base_controller_file
 
 module Base
   class EveryOtherTurn < EveryNthTurn
-    N = 2
+
+    def secondary_initialization
+      @n = 2
+    end
+
   end
 end

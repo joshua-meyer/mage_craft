@@ -10,7 +10,11 @@ module Base
     end
 
     def self.default_symbol
-      "$$".light_green
+      {
+        shape:     "$$",
+        color:     Curses::COLOR_GREEN,
+        attribute: Curses::A_DIM
+      }
     end
 
     def self.default_manna_cost

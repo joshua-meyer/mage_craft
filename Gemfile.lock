@@ -3,7 +3,11 @@ GEM
   specs:
     coderay (1.1.0)
     colorize (0.7.7)
+    curses (1.0.1)
+    dispel (0.0.7)
+      curses
     method_source (0.8.2)
+    ncurses-ruby (1.2.4)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -15,6 +19,8 @@ PLATFORMS
 
 DEPENDENCIES
   colorize
+  dispel
+  ncurses-ruby
   pry
 
 BUNDLED WITH

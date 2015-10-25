@@ -1,19 +1,20 @@
+require "curses"
+
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
 require file_path
 
 square_board_path = File.expand_path("../../lib/game_boards/square_board.rb",__FILE__)
 require square_board_path
 
-player_path = File.expand_path("../../lib/piece_controllers/player.rb",__FILE__)
+player_path = File.expand_path("../../lib/piece_controllers/player/player.rb",__FILE__)
 require player_path
 
 include Base
 
 module Base
   class TestPlayer < Player
-    def get_input
-      puts "Use wasd to move."
-      gets.chomp.downcase
+    def standard_message
+      "Use wasd to move."
     end
   end
 end
@@ -26,7 +27,11 @@ BASE_CONTROLLER = {
 
 wall = GamePiece.new({
   :controller =>    BASE_CONTROLLER,
-  :symbol =>        "##".black,
+  :symbol => {
+    shape:     "  ",
+    color:     Curses::COLOR_WHITE,
+    attribute: Curses::A_INVIS
+  },
   :has_substance => true
 })
 wall_locations = [
@@ -50,19 +55,31 @@ end
 
 door1 = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
-  :symbol =>            "||".yellow,
+  :symbol => {
+    shape:     "||",
+    color:     Curses::COLOR_YELLOW,
+    attribute: Curses::A_NORMAL
+  },
   :game_board =>        test_board,
   :starting_position => [0,5]
 })
 door2 = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
-  :symbol =>            "==".yellow,
+  :symbol => {
+    shape:     "==",
+    color:     Curses::COLOR_YELLOW,
+    attribute: Curses::A_NORMAL
+  },
   :game_board =>        test_board,
   :starting_position => [11,16]
 })
 victory = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
-  :symbol =>            "[]".green,
+  :symbol => {
+    shape:     "[]",
+    color:     Curses::COLOR_GREEN,
+    attribute: Curses::A_BOLD
+  },
   :game_board =>        test_board,
   :starting_position => [10,20]
 })
@@ -73,7 +90,11 @@ PLAYER_CONTROLLER = {
 
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
-  :symbol =>            "TP".light_blue,
+  :symbol => {
+    shape:     "TP",
+    color:     Curses::COLOR_CYAN,
+    attribute: Curses::A_NORMAL
+  },
   :has_substance =>     true,
   :manna =>             0,
   :game_board =>        test_board,

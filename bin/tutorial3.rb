@@ -14,7 +14,11 @@ BASE_CONTROLLER = {
 
 wall = GamePiece.new({
   :controller =>    BASE_CONTROLLER,
-  :symbol =>        "##".black,
+  :symbol => {
+    shape:     "  ",
+    color:     Curses::COLOR_WHITE,
+    attribute: Curses::A_INVIS
+  },
   :has_substance => true
 })
 wall_locations = [
@@ -38,21 +42,33 @@ GO_FORWARD_CONTROLLER = {
 
 RED_MISSILE_RIGHT = {
   :controller => GO_FORWARD_CONTROLLER,
-  :symbol =>     "->".red,
+  :symbol => {
+    shape: "->",
+    color: Curses::COLOR_RED,
+    attribute: Curses::A_BOLD
+  },
   :game_board => test_board,
   :manna_cost => 1
 }
 
 RED_MISSILE_UP = {
   :controller => GO_FORWARD_CONTROLLER,
-  :symbol =>     "/\\".red,
+  :symbol => {
+    shape: "/\\",
+    color: Curses::COLOR_RED,
+    attribute: Curses::A_BOLD
+  },
   :manna_cost => 1,
   :game_board => test_board
 }
 
 RED_MISSILE_UP_FREE = {
   :controller => GO_FORWARD_CONTROLLER,
-  :symbol =>     "/\\".red,
+  :symbol => {
+    shape: "/\\",
+    color: Curses::COLOR_RED,
+    attribute: Curses::A_BOLD
+  },
   :game_board => test_board
 }
 
@@ -72,7 +88,11 @@ RED_MISSILE_SPAWNER = {
 
 reference_square = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
-  :symbol =>            "##".black,
+  :symbol => {
+    shape:     "  ",
+    color:     Curses::COLOR_WHITE,
+    attribute: Curses::A_INVIS
+  },
   :game_board =>        test_board,
   :has_substance =>     true,
   :starting_position => [2,1]
@@ -81,7 +101,11 @@ reference_square = GamePiece.new({
 missile_spawner = GamePiece.new({
   :controller =>        FORWARD_SPAWNER_CONTROLLER,
   :starting_position => [2,2],
-  :symbol =>            "=}".magenta,
+  :symbol => {
+    shape:     "=}",
+    color:     Curses::COLOR_MAGENTA,
+    attribute: Curses::A_NORMAL
+  },
   :parent_piece =>      reference_square,
   :game_board =>        test_board,
   :manna =>             0,
@@ -97,14 +121,22 @@ MANNA_WELL_ONE_CONTROLLER = {
 manna_tap = GamePiece.new({
   :controller =>         MANNA_WELL_ONE_CONTROLLER,
   :game_board =>         test_board,
-  :symbol =>             "##".black,
+  :symbol => {
+    shape:     "  ",
+    color:     Curses::COLOR_WHITE,
+    attribute: Curses::A_INVIS
+  },
   :starting_position =>  [2,0],
   :parent_piece =>       missile_spawner
 })
 
 victory = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
-  :symbol =>            "[]".green,
+  :symbol => {
+    shape:     "[]",
+    color:     Curses::COLOR_GREEN,
+    attribute: Curses::A_BOLD
+  },
   :game_board =>        test_board,
   :starting_position => [0,7]
 })
@@ -115,7 +147,11 @@ PLAYER_CONTROLLER = {
 
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
-  :symbol =>            "TP".light_blue,
+  :symbol => {
+    shape: "TP",
+    color: Curses::COLOR_CYAN,
+    attribute: Curses::A_NORMAL
+  },
   :manna =>             0,
   :game_board =>        test_board,
   :starting_position => [9,7],

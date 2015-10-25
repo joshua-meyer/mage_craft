@@ -1,10 +1,10 @@
 base_path = File.expand_path("../base.rb",__FILE__)
 require base_path
 
-piece_utils_path = File.expand_path("../utils/game_piece_utils.rb",__FILE__)
+piece_utils_path = File.expand_path("../utils/game_piece_utils.rb", __FILE__)
 require piece_utils_path
 
-game_board_path = File.expand_path("../base_game_board.rb",__FILE__)
+game_board_path = File.expand_path("../base_game_board.rb", __FILE__)
 require game_board_path
 
 module Base
@@ -15,21 +15,32 @@ module Base
     :vfps, :vfps_updatable, :spells, :sensors, :turn_spawned
 
     def initialize(hash_args)
-      @controller = load_controller_class_from_symbol(hash_args[:controller][:function])
+      @controller_class = load_controller_class_from_symbol(hash_args[:controller][:function])
+      @game_board = hash_args[:game_board]
       @sub_controllers = hash_args[:controller][:arguments]
+      # Initializing the controller requires that all of the above instance variables be set.
+      @controller = @controller_class.new(game_variables)
+
+      @game_board.place_piece(self, hash_args[:starting_position]) if hash_args[:starting_position]
       @sensors = load_sensors(hash_args[:controller][:sensors])
+      @symbol = hash_args[:symbol] || @controller_class.default_symbol
+      @game_board.err_unless_symbol_is_valid(@symbol) if @game_board
       @has_substance = hash_args[:has_substance]
       @manna = hash_args[:manna]
-      @game_board = hash_args[:game_board]
-      @symbol = hash_args[:symbol] || @controller.default_symbol
-      @game_board.err_unless_symbol_is_valid(@symbol) if @game_board
-      @game_board.place_piece(self,hash_args[:starting_position]) if hash_args[:starting_position]
       @parent_piece = hash_args[:parent_piece]
       # VFPS: Vector From Parent when Spawned
       @vfps = vector_from_piece(@parent_piece) if @parent_piece
       @spells = hash_args[:spells]
       @vfps_updatable = false
       @turn_spawned = current_turn
+    end
+
+    def game_variables
+      {
+        :game_board =>  @game_board,
+        :game_piece =>  self,
+        :sub_controllers => @sub_controllers
+      }
     end
 
     def load_sensors(sensor_list)
@@ -44,14 +55,10 @@ module Base
 
     def take_turn(game_board)
       sensor_readings = take_readings(@sensors)
-      turn = @controller.new({
-        :game_board =>  game_board,
-        :game_piece =>  self,
-        :sensor_readings => sensor_readings, # Should at least be an empty hash
-        :sub_controllers => @sub_controllers
-      })
       @vfps_updatable = true
-      response =  turn.take
+      response =  @controller.take_turn({
+        :sensor_readings => sensor_readings # Should at least be an empty hash
+      })
       @vfps_updatable = false
       return response
     end
@@ -76,7 +83,7 @@ module Base
       end
     end
 
-    def spawn_piece(spell,location)
+    def spawn_piece(spell, location)
       err_unless_adjacent_to(location)
       template = @spells[spell]
       manna_cost = template[:manna_cost] || 0
@@ -90,7 +97,7 @@ module Base
       new_piece = GamePiece.new({
         :controller =>        template[:controller],
         :symbol =>            template[:symbol],
-        :has_substance =>     template[:has_substance],
+        :has_substance =>   template[:has_substance],
         :manna =>             template[:manna],
         :spells =>            template[:spells],
         :game_board =>        @game_board,

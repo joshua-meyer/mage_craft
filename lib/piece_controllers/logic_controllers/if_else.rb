@@ -6,16 +6,23 @@ module Base
 
     def take
       if @sensor_readings[@sub_controllers[:inputs][0]]
-        sub_controller = load_controller_class_from_symbol(@sub_controllers[true][:function])
+        sub_controller = @sub_controllers[true]
       else
-        sub_controller = load_controller_class_from_symbol(@sub_controllers[false][:function])
+        sub_controller = @sub_controllers[false]
       end
-      sub_turn = sub_controller.new({
-        :game_board =>  @game_board,
-        :game_piece =>  @game_piece,
-        :sensor_readings => @sensor_readings, # Should at least be an empty hash
+      sub_controller_class = load_controller_class_from_symbol(sub_controller[:function])
+
+      unless sub_controller[:instance]
+        sub_controller[:instance] = sub_controller_class.new({
+          game_board:  @game_board,
+          game_piece:  @game_piece,
+          sub_controllers: sub_controller[:arguments]
+        })
+      end
+
+      return sub_controller[:instance].take_turn({
+        :sensor_readings => @sensor_readings # Should at least be an empty hash
       })
-      return sub_turn.take
     end
 
     def self.default_manna_cost

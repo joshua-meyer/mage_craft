@@ -1,13 +1,13 @@
-base_path = File.expand_path("../base.rb",__FILE__)
+base_path = File.expand_path("../base.rb", __FILE__)
 require base_path
 
-board_utils_path = File.expand_path("../utils/base_game_board_utils.rb",__FILE__)
+board_utils_path = File.expand_path("../utils/base_game_board_utils.rb", __FILE__)
 require board_utils_path
 
-game_piece_path = File.expand_path("../game_piece.rb",__FILE__)
+game_piece_path = File.expand_path("../game_piece.rb", __FILE__)
 require game_piece_path
 
-game_instance_path = File.expand_path("../game_instance.rb",__FILE__)
+game_instance_path = File.expand_path("../game_instance.rb", __FILE__)
 require game_instance_path
 
 module Base
@@ -20,13 +20,13 @@ module Base
     def initialize(*parameters)
       board = generate_board(*parameters)
       @game_board = board
-      return "done"
+      "done"
     end
 
     def place_piece(piece,location)
       err_unless_game_piece(piece)
       err_unless_valid_location(location)
-      set_location_of_piece(location,piece)
+      set_location_of_piece(location ,piece)
       return "done"
     end
 
@@ -40,8 +40,9 @@ module Base
       unless is_enterable?(to)
         raise IllegalMove, "Location #{to} contains #{piece_at(to)}" # *
       end
-      set_location_of_piece(to,piece)
-      set_location_of_piece(from,self.class::BLANK_SPACE)
+
+      set_location_of_piece(to, piece)
+      set_location_of_piece(from, self.class::BLANK_SPACE)
       return "done"
     end
 
@@ -51,7 +52,7 @@ module Base
       unless piece_loc
         raise IllegalMove, "#{piece} is not in play" # *
       end
-      set_location_of_piece(piece_loc,self.class::BLANK_SPACE)
+      set_location_of_piece(piece_loc, self.class::BLANK_SPACE)
       return "done"
     end
 
@@ -64,8 +65,8 @@ module Base
     end
 
     def vector_from_location_to_location(from_loc,to_loc)
-      [from_loc,to_loc].each { |loc| err_unless_valid_location(loc) }
-      return vector_between_valid_locations(from_loc,to_loc)
+      [from_loc, to_loc].each { |loc| err_unless_valid_location(loc) }
+      return vector_between_valid_locations(from_loc, to_loc)
     end
 
     def generate_board(parameters)

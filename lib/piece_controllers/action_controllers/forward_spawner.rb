@@ -15,7 +15,11 @@ module Base
     end
 
     def self.default_symbol
-      "::".magenta
+      {
+        shape:     "::",
+        color:     Curses::COLOR_MAGENTA,
+        attribute: Curses::A_NORMAL
+      }
     end
 
     def self.default_manna_cost
