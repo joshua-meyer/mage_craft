@@ -1,4 +1,4 @@
-base_path = File.expand_path("../base.rb",__FILE__)
+base_path = File.expand_path("../base.rb", __FILE__)
 require base_path
 
 piece_utils_path = File.expand_path("../utils/game_piece_utils.rb", __FILE__)
@@ -22,7 +22,7 @@ module Base
       @controller = @controller_class.new(game_variables)
 
       @game_board.place_piece(self, hash_args[:starting_position]) if hash_args[:starting_position]
-      @sensors = load_sensors(hash_args[:controller][:sensors])
+      load_sensors(hash_args[:controller][:sensors])
       @symbol = hash_args[:symbol] || @controller_class.default_symbol
       @game_board.err_unless_symbol_is_valid(@symbol) if @game_board
       @has_substance = hash_args[:has_substance]
@@ -31,7 +31,6 @@ module Base
       # VFPS: Vector From Parent when Spawned
       @vfps = vector_from_piece(@parent_piece) if @parent_piece
       @spells = hash_args[:spells]
-      @vfps_updatable = false
       @turn_spawned = current_turn
     end
 
@@ -44,47 +43,42 @@ module Base
     end
 
     def load_sensors(sensor_list)
-      sensors = {}
+      @sensors = {}
       if sensor_list
         sensor_list.each do |sensor|
-          sensors[sensor] = load_controller_class_from_symbol(sensor)
+          @sensors[sensor] = load_controller_class_from_symbol(sensor)
         end
       end
-      return sensors
+      return "done"
     end
 
-    def take_turn(game_board)
+    def take_turn
       sensor_readings = take_readings(@sensors)
-      @vfps_updatable = true
       response =  @controller.take_turn({
         :sensor_readings => sensor_readings # Should at least be an empty hash
       })
-      @vfps_updatable = false
       return response
     end
 
     def take_readings(sensor_hash)
       results = {}
-      sensor_hash.each do |name,sensor|
+      sensor_hash.each do |name, sensor|
         reading = sensor.new({
           :game_board => game_board,
           :game_piece => self
         })
-        results[name] = reading.take
+        results[name] = reading.take_turn
       end
       return results
     end
 
     def update_vfps(new_vfps)
-      if @vfps_updatable
-        @vfps = new_vfps
-      else
-        raise NoMethodError, "method `update_vfps' not accessible at the time it was called"
-      end
+      @game_board.err_unless_vector_is_unit_vector(new_vfps)
+      @vfps = new_vfps
     end
 
     def spawn_piece(spell, location)
-      err_unless_adjacent_to(location)
+      @game_board.err_unless_adjacent(location, @game_board.location_of_piece(self))
       template = @spells[spell]
       manna_cost = template[:manna_cost] || 0
 

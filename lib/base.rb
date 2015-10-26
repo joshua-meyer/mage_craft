@@ -7,7 +7,11 @@ module Base
   class IllegalMove < StandardError; end
   class FormatError < StandardError; end
 
-  SYMBOL_FOR_UNKNOWN = "??".red
+  SYMBOL_FOR_UNKNOWN = {
+    shape: "??",
+    color: Curses::COLOR_RED,
+    attribute: Curses::A_NORMAL
+  }
   DEFAULT_IF_LOSE_DO = Proc.new do |game|
     display_end_message(game, "Oh no, you lost!", Curses::COLOR_RED)
   end

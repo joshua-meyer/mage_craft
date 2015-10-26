@@ -4,10 +4,13 @@ module Base
     def vector_from_piece(piece)
       my_position = @game_board.location_of_piece(self)
       other_position = @game_board.location_of_piece(piece)
-      @game_board.vector_from_location_to_location(other_position,my_position)
+      @game_board.vector_from_location_to_location(other_position, my_position)
     end
 
     def give_mp!(n)
+      unless n.is_a? Integer
+        raise ArgumentError, "#{n} is not an integer"
+      end
       if n < 0
         raise IllegalMove, "Why are you trying to 'give' negative mp? Use take_mp! instead."
       else
@@ -18,21 +21,17 @@ module Base
     end
 
     def take_mp!(n)
+      unless n.is_a? Integer
+        raise ArgumentError, "#{n} is not an integer"
+      end
       if n > @manna
         raise IllegalMove, "#{self} only has #{@mp} mp"
       elsif n < 0
-        raise IllegalMove "Why are you trying to 'take' negative mp? Use give_mp! instead."
+        raise IllegalMove, "Why are you trying to 'take' negative mp? Use give_mp! instead."
       else
         @manna -= n
       end
       return "done"
-    end
-
-    def err_unless_adjacent_to(position)
-      my_position = @game_board.location_of_piece(self)
-      unless @game_board.are_2_locations_adjacent?(my_position,position)
-        raise IllegalMove, "Not adjacent to #{position}."
-      end
     end
 
     def current_turn

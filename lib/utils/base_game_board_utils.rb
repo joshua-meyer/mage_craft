@@ -35,13 +35,13 @@ module Base
       end
     end
 
-    def distance(position1,position2)
+    def distance(position1, position2)
       err_unless_valid_location(position1)
       err_unless_valid_location(position2)
       return distance_between_2_valid_locations(position1,position2)
     end
 
-    def are_2_locations_adjacent?(position1,position2)
+    def are_2_locations_adjacent?(position1, position2)
       err_unless_valid_location(position1)
       err_unless_valid_location(position2)
       return are_2_valid_locations_adjacent(position1,position2)
@@ -56,6 +56,12 @@ module Base
     def err_unless_symbol_is_valid(game_symbol)
       unless is_valid_symbol?(game_symbol)
         raise FormatError, "#{game_symbol} is not a valid symbol"
+      end
+    end
+
+    def err_unless_adjacent(position1, position2)
+      unless are_2_locations_adjacent?(position2 ,position1)
+        raise IllegalMove, "Not adjacent to #{position1}."
       end
     end
 
@@ -107,6 +113,10 @@ module Base
       {
         nil => nil
       }
+    end
+
+    def err_unless_vector_is_unit_vector(vector)
+      raise NoMethodError, "Implement me!"
     end
 
   # * I'm using "IllegalMove" to mean,

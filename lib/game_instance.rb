@@ -20,21 +20,28 @@ module Base
       @ncps = [] #Non-Character Pieces
       @win_conditions = hash_args[:win_conditions]
       @lose_conditions = hash_args[:lose_conditions]
-      @print_board_each_round = hash_args[:print_board_each_round]
       @if_win_do = hash_args[:if_win_do] || DEFAULT_IF_WIN_DO
       @if_lose_do = hash_args[:if_lose_do] || DEFAULT_IF_LOSE_DO
+
+      @spectate = hash_args[:spectate]
+      @game_board.start_board! if @spectate
 
       @game_board.set_game_instance(self)
       return "done"
     end
 
+    def show_board_to_spectator
+      board = @game_board.refresh_board!
+      board.getch
+    end
+
     def do_round # Spells shouldn't move until the players have finished moving.
       @turn_number += 1 if @turn_number
-      @game_board.print_board if @print_board_each_round
+      show_board_to_spectator if @spectate
       [@characters, @ncps].each do |piece_list|
         piece_list.each do |piece|
           if @game_board.location_of_piece(piece)
-            piece.take_turn(@game_board)
+            piece.take_turn
           end
         end
       end

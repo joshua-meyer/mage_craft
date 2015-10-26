@@ -10,6 +10,7 @@ module Base
       else
         sub_controller = @sub_controllers[false]
       end
+
       sub_controller_class = load_controller_class_from_symbol(sub_controller[:function])
 
       unless sub_controller[:instance]

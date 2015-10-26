@@ -9,6 +9,14 @@ module Base
 
     def any_are_met(conditions)
       return false unless conditions
+      unless conditions.is_a? Array
+        raise ArgumentError, "#{conditions} is not an array"
+      end
+      conditions.each do |condition|
+        unless condition.is_a? Proc
+          raise ArgumentError, "#{condition} is not a proc"
+        end
+      end
       conditions.each do |condition|
         return true if condition.call
       end

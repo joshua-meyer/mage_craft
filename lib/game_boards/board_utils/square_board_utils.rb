@@ -3,7 +3,7 @@ require 'matrix'
 module Base
   module SquareBoardUtils
 
-    def set_location_of_piece(location,piece)
+    def set_location_of_piece(location, piece)
       @game_board[location[0]][location[1]] = piece
     end
 
@@ -59,7 +59,7 @@ module Base
     end
 
     def are_2_valid_locations_adjacent(position1, position2)
-      distance_between_2_valid_locations(position1,position2)
+      distance_between_2_valid_locations(position1, position2) == 1
     end
 
     def vector_between_valid_locations(from_loc, to_loc)
@@ -68,7 +68,7 @@ module Base
       return [vertical,horizontal]
     end
 
-    def apply_vector_to_position(vector, position)
+    def apply_vector_to_valid_position(vector, position)
       new_vertical = position[0] + vector[0]
       new_horizontal = position[1] + vector[1]
       return [new_vertical,new_horizontal]
@@ -92,6 +92,12 @@ module Base
     def rotate_negative(vector)
       m = Matrix[vector] * Matrix[[0,1],[-1,0]] # Rotates by 90 degrees
       return m.row(0).to_a # Extracts array from matrix
+    end
+
+    def err_unless_vector_is_unit_vector(vector)
+      test_board = SquareGameBoard.new(3)
+      test_location = test_board.apply_vector_to_valid_position(vector, [1,1])
+      test_board.err_unless_adjacent([1,1], test_location)
     end
 
   end

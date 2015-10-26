@@ -50,7 +50,7 @@ module Base
     end
 
     def square_directly_in_front_of_me
-      @game_board.apply_vector_to_position(@game_piece.vfps, @current_location)
+      @game_board.apply_vector_to_valid_position(@game_piece.vfps, @current_location)
     end
 
   end

@@ -14,7 +14,11 @@ module Base
   class BaseGameBoard
     include BaseGameBoardUtils
     attr_reader :game_board, :game_instance
-    BLANK_SPACE = "##".light_black
+    BLANK_SPACE = {
+      shape: "??",
+      color: Curses::COLOR_RED,
+      attribute: Curses::A_DIM
+    }
 
     # Where n is the number of rows and k is the number of columns.
     def initialize(*parameters)
@@ -23,14 +27,14 @@ module Base
       "done"
     end
 
-    def place_piece(piece,location)
+    def place_piece(piece, location)
       err_unless_game_piece(piece)
       err_unless_valid_location(location)
       set_location_of_piece(location ,piece)
       return "done"
     end
 
-    def move_piece(piece,to)
+    def move_piece(piece, to)
       err_unless_game_piece(piece)
       from = location_of_piece(piece)
       if from.nil?
@@ -40,6 +44,7 @@ module Base
       unless is_enterable?(to)
         raise IllegalMove, "Location #{to} contains #{piece_at(to)}" # *
       end
+      err_unless_adjacent(from, to)
 
       set_location_of_piece(to, piece)
       set_location_of_piece(from, self.class::BLANK_SPACE)
@@ -79,6 +84,6 @@ module Base
 
   # * I'm using "IllegalMove" to mean,
   # "any operation that would be valid if it did not violate the rules or assumptions of the game."
-  # I feel like grouping these together will make exception handling easier later on.
+  # Grouping these together will make exception handling easier later on.
   end
 end
