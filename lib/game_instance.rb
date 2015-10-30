@@ -15,7 +15,7 @@ module Base
 
     def initialize(hash_args)
       @game_board = hash_args[:game_board]
-      @characters = hash_args[:characters]
+      @characters = hash_args[:characters] || []
       @characters.each { |character| err_unless_piece_is_on_the_board(character, @game_board) }
       @ncps = [] #Non-Character Pieces
       @win_conditions = hash_args[:win_conditions]

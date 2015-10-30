@@ -11,7 +11,7 @@ module Base
   class GamePiece
     include GamePieceUtils
 
-    attr_reader :controller, :symbol, :game_board, :has_substance, :manna, :parent_piece,
+    attr_reader :controller_class, :controller, :symbol, :game_board, :has_substance, :manna, :parent_piece,
     :vfps, :vfps_updatable, :spells, :sensors, :turn_spawned
 
     def initialize(hash_args)
