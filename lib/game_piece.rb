@@ -67,7 +67,7 @@ module Base
           :game_board => game_board,
           :game_piece => self
         })
-        results[name] = reading.take_turn
+        results[name] = reading.take_turn(sensor_hash)
       end
       return results
     end

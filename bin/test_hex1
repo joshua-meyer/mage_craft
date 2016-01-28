@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
 require file_path
 
@@ -14,7 +15,10 @@ GO_FORWARD = {
 
 FIRE_BALL = {
   :controller => GO_FORWARD,
-  :symbol =>     [" @@ ".red, " @@ ".red],
+  :symbol => [
+    { :shape => " @@ ", :color => Curses::COLOR_RED, :attribute => Curses::A_DIM },
+    { :shape => " @@ ", :color => Curses::COLOR_RED, :attribute => Curses::A_DIM }
+  ],
   :game_board => test_board,
   :manna_cost => 1
 }
@@ -25,7 +29,10 @@ PLAYER_CONTROLLER = {
 
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
-  :symbol =>            ["test".light_blue, "pice".light_blue],
+  :symbol => [
+    { :shape => "test", :color => Curses::COLOR_BLUE, :attribute => Curses::A_DIM },
+    { :shape => "pice", :color => Curses::COLOR_BLUE, :attribute => Curses::A_DIM }
+  ],
   :has_substance =>     true,
   :manna =>             0,
   :game_board =>        test_board,
@@ -36,9 +43,8 @@ test_piece = GamePiece.new({
 })
 
 
-test_game = GameInstance.new({
-  :game_board =>  test_board,
-  :characters => [test_piece]
-})
+test_game = GameInstance.new(test_board,
+  characters: [test_piece]
+)
 
 test_game.play

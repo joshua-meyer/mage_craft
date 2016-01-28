@@ -15,7 +15,8 @@ Or, space to rest and restore mp.
       M
     end
 
-    def secondary_initialization
+    def initialize(hash_args)
+      super(hash_args)
       Curses.init_screen
       Curses.setpos((Curses.lines - 5) / 2, (Curses.cols - 10) / 2)
       Curses.start_color

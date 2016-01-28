@@ -11,19 +11,21 @@ module Base
   class GameInstance
     include GameInstanceUtils
     attr_reader :game_board, :characters, :win_conditions, :lose_conditions, :turn_number
-    attr_accessor :ncps
+    attr_accessor :ncps, :spectate
 
-    def initialize(hash_args)
-      @game_board = hash_args[:game_board]
-      @characters = hash_args[:characters] || []
+    def initialize(game_board, win_conditions: [], lose_conditions: [],
+          if_win_do: DEFAULT_IF_WIN_DO, if_lose_do: DEFAULT_IF_LOSE_DO,
+          characters: [], ncps: [], spectate: false)
+      @game_board = game_board
+      @characters = characters
       @characters.each { |character| err_unless_piece_is_on_the_board(character, @game_board) }
-      @ncps = [] #Non-Character Pieces
-      @win_conditions = hash_args[:win_conditions]
-      @lose_conditions = hash_args[:lose_conditions]
-      @if_win_do = hash_args[:if_win_do] || DEFAULT_IF_WIN_DO
-      @if_lose_do = hash_args[:if_lose_do] || DEFAULT_IF_LOSE_DO
+      @ncps = ncps
+      @win_conditions = win_conditions
+      @lose_conditions = lose_conditions
+      @if_win_do = if_win_do
+      @if_lose_do = if_lose_do
 
-      @spectate = hash_args[:spectate]
+      @spectate = spectate
       @game_board.start_board! if @spectate
 
       @game_board.set_game_instance(self)

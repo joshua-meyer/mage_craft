@@ -4,14 +4,20 @@ require square_utils_path
 module Base
   module HexBoardUtils
     include SquareBoardUtils
+    BLANK_SPACE = [
+      { :shape => "/\u203E\u203E\\", :color => Curses::COLOR_WHITE, :attribute => Curses::A_DIM },
+      { :shape => "\\__/", :color => Curses::COLOR_WHITE, :attribute => Curses::A_DIM }
+    ]
 
     def is_valid_symbol?(symbol)
       begin
         return false unless symbol.is_a? Array
         return false unless symbol.count == 2
         symbol.each do |s|
-          return false unless s.is_a? String
-          return false unless s.uncolorize.length == 4 # To prevent screen tearing
+          return false unless s.is_a? Hash
+          return false unless s[:shape]
+          return false unless s[:shape].is_a? String
+          return false unless s[:shape].length == 4 # To prevent screen tearing
         end
         return true
       rescue TypeError
@@ -73,7 +79,7 @@ module Base
       begin
         return symbol_at(location)
       rescue IllegalMove
-        return ["####".black,"####".black]
+        return BLANK_SPACE
       end
     end
 

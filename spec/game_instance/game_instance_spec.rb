@@ -12,7 +12,7 @@ describe GameInstance do
       BaseGameBoard.any_instance.stub(:generate_board).and_return(nil)
 
       expect{ GameInstance.new({}) }.to raise_error
-      GameInstance.new({ game_board: stub_board })
+      GameInstance.new(stub_board)
     end
 
   end

@@ -11,12 +11,6 @@ module Base
       @game_piece = hash_args[:game_piece]
       @sub_controllers = hash_args[:sub_controllers]
       @turn_variables = []
-
-      secondary_initialization
-    end
-
-    def secondary_initialization
-      nil
     end
 
     def current_location(game_board,game_piece)

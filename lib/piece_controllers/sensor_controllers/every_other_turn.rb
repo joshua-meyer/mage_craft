@@ -4,7 +4,8 @@ require base_controller_file
 module Base
   class EveryOtherTurn < EveryNthTurn
 
-    def secondary_initialization
+    def initialize(hash_args)
+      super(hash_args)
       @n = 2
     end
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
 require file_path
 
@@ -72,9 +73,8 @@ test_piece = GamePiece.new({
   }
 })
 
-test_game = GameInstance.new({
-  :game_board =>  test_board,
-  :characters => [test_piece]
-})
+test_game = GameInstance.new(test_board,
+  characters: [test_piece]
+)
 
 test_game.play

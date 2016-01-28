@@ -4,9 +4,10 @@ require base_controller_file
 module Base
   class TurnAndGo < BaseController
 
-    def secondary_initialization
+    def initialize(hash_args)
+      super(hash_args)
       go_forward_class = load_controller_class_from_symbol(:go_forward)
-      go_forward_instance = go_forward_class.new({
+      @go_forward_instance = go_forward_class.new({
         :game_board => @game_board,
         :game_piece => @game_piece
       })
@@ -15,7 +16,7 @@ module Base
     def take
       new_vfps = turn(@game_piece.vfps)
       @game_piece.update_vfps(new_vfps)
-      return go_forward_instance.take_turn({
+      return @go_forward_instance.take_turn({
         sensor_readings: @sensor_readings
       })
     end

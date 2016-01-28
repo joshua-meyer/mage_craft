@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
 require file_path
 
@@ -162,15 +163,14 @@ test_piece = GamePiece.new({
   }
 })
 
-test_game = GameInstance.new({
-  :game_board => test_board,
-  :characters => [manna_tap,missile_spawner,test_piece],
-  :win_conditions => [
+test_game = GameInstance.new(test_board,
+  characters: [manna_tap,missile_spawner,test_piece],
+  win_conditions: [
     Proc.new { test_board.location_of_piece(test_piece) == [0,10] }
   ],
-  :lose_conditions => [
+  lose_conditions: [
     Proc.new { test_board.location_of_piece(test_piece).nil? }
   ]
-})
+)
 
 test_game.play

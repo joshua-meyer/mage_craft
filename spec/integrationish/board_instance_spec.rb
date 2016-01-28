@@ -12,7 +12,7 @@ describe SquareGameBoard, GameInstance do
   context "from base_game_board" do
 
     it "set_game_instance" do
-      test_instance = GameInstance.new({ game_board: board_2 })
+      test_instance = GameInstance.new(board_2)
       expect(board_2.game_instance).to eq(test_instance)
     end
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require "curses"
 
 file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
@@ -101,12 +102,11 @@ test_piece = GamePiece.new({
   :starting_position => [0,0]
 })
 
-test_game = GameInstance.new({
-  :game_board => test_board,
-  :characters => [test_piece],
-  :win_conditions => [
+test_game = GameInstance.new(test_board,
+  characters: [test_piece],
+  win_conditions: [
     Proc.new { test_board.location_of_piece(test_piece) == [10,20] }
   ]
-})
+)
 
 test_game.play

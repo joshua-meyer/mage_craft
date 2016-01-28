@@ -5,7 +5,8 @@ module Base
   class EveryNthTurn < BaseController
     attr_reader :n
 
-    def secondary_initialization
+    def initialize(hash_args)
+      super(hash_args)
       @n = nil
     end
 
