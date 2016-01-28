@@ -21,9 +21,9 @@ module Base
         )
       @game_board = game_board
       @user_interface = user_interface
-      @user_interface.game_instance = self
-      @user_interface.game_board = game_board
-      @user_interface.new_screen!
+      @user_interface.game_instance = self if @user_interface
+      @user_interface.game_board = game_board if @user_interface
+      @user_interface.new_screen! if @user_interface
 
       @characters = characters
       @characters.each { |character| err_unless_piece_is_on_the_board(character, @game_board) }

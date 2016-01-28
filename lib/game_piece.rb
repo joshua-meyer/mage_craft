@@ -19,7 +19,7 @@ module Base
     def initialize(hash_args)
       @controller_class = load_controller_class_from_symbol(hash_args[:controller][:function])
       @game_board = hash_args[:game_board]
-      @user_interface = hash_args[:user_interface] || game_board.game_instance.try(:user_interface)
+      @user_interface = hash_args[:user_interface] || game_board.try(:game_instance).try(:user_interface)
       @sub_controllers = hash_args[:controller][:arguments]
       # Initializing the controller requires that all of the above instance variables be set.
       @controller = @controller_class.new(game_variables)
