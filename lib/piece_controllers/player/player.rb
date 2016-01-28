@@ -15,22 +15,9 @@ Or, space to rest and restore mp.
       M
     end
 
-    def initialize(hash_args)
-      super(hash_args)
-      Curses.init_screen
-      Curses.setpos((Curses.lines - 5) / 2, (Curses.cols - 10) / 2)
-      Curses.start_color
-      @board_window = @game_board.start_board!
-      ObjectSpace.define_finalizer(self, self.class.finalize)
-    end
-
-    def self.finalize
-      Proc.new { Curses.close_screen }
-    end
-
     def take
       @key_map = @game_board.map_keyboard_keys_to_adjacent_positions(@current_location)
-      @game_board.refresh_board!
+      @user_interface.refresh_board!
       message = standard_message
       loop do
         input = get_input(message)

@@ -5,6 +5,9 @@ require file_path
 square_board_path = File.expand_path("../../lib/game_boards/square_board.rb",__FILE__)
 require square_board_path
 
+curses_path = File.expand_path("../../lib/user_interfaces/curses_ui.rb",__FILE__)
+require curses_path
+
 include Base
 
 test_board = SquareGameBoard.new(10)
@@ -61,8 +64,11 @@ PLAYER_CONTROLLER = {
   :function => :player
 }
 
+UI = CursesUI.new
+
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
+  :user_interface =>    UI,
   :has_substance =>     true,
   :manna =>             0,
   :game_board =>        test_board,
@@ -74,7 +80,8 @@ test_piece = GamePiece.new({
 })
 
 test_game = GameInstance.new(test_board,
-  characters: [test_piece]
+  characters: [test_piece],
+  user_interface: UI
 )
 
 test_game.play

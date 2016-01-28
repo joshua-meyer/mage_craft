@@ -5,6 +5,9 @@ require file_path
 square_board_path = File.expand_path("../../lib/game_boards/square_board.rb",__FILE__)
 require square_board_path
 
+curses_path = File.expand_path("../../lib/user_interfaces/curses_ui.rb",__FILE__)
+require curses_path
+
 include Base
 
 test_board = SquareGameBoard.new(10, 11)
@@ -13,8 +16,11 @@ BASE_CONTROLLER = {
   :function => :base_controller
 }
 
+UI = CursesUI.new
+
 wall = GamePiece.new({
   :controller =>    BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "  ",
     color:     Curses::COLOR_WHITE,
@@ -90,6 +96,7 @@ RED_MISSILE_SPAWNER = {
 
 reference_square = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "  ",
     color:     Curses::COLOR_WHITE,
@@ -102,6 +109,7 @@ reference_square = GamePiece.new({
 
 missile_spawner = GamePiece.new({
   :controller =>        FORWARD_SPAWNER_CONTROLLER,
+  :user_interface =>    UI,
   :starting_position => [2,2],
   :symbol => {
     shape:     "=}",
@@ -122,6 +130,7 @@ MANNA_WELL_ONE_CONTROLLER = {
 
 manna_tap = GamePiece.new({
   :controller =>         MANNA_WELL_ONE_CONTROLLER,
+  :user_interface =>    UI,
   :game_board =>         test_board,
   :symbol => {
     shape:     "  ",
@@ -134,6 +143,7 @@ manna_tap = GamePiece.new({
 
 victory = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "[]",
     color:     Curses::COLOR_GREEN,
@@ -149,6 +159,7 @@ PLAYER_CONTROLLER = {
 
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape: "TP",
     color: Curses::COLOR_CYAN,
@@ -164,6 +175,7 @@ test_piece = GamePiece.new({
 })
 
 test_game = GameInstance.new(test_board,
+  user_interface: UI,
   characters: [manna_tap,missile_spawner,test_piece],
   win_conditions: [
     Proc.new { test_board.location_of_piece(test_piece) == [0,10] }

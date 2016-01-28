@@ -12,12 +12,8 @@ module Base
     include HexBoardUtils
 
     # Each space is 2 by 4, so we can shift the odd columns down by 1/2
-    def refresh_board!
-      @win.clear
-      @win.setpos(0, 0)
-      @win.addstr("\n")
-
-
+    def yield_elements_of_board
+      yield NEW_LINE_SYMBOL
       rows_plus_one = @game_board.count + 1
       r = 0 # r for row
       rows_plus_one.times do
@@ -29,39 +25,24 @@ module Base
         row.each_index do |c| # c for column
           if c % 2 == 0
             symbol = return_filler_if_symbol_does_not_exist([r,c])[0]
-            print_symbol(symbol)
+            yield symbol
           else
             symbol = return_filler_if_symbol_does_not_exist([r-1,c])[1]
-            print_symbol(symbol)
+            yield symbol
           end
         end
-        @win.addstr("\n")
+        yield NEW_LINE_SYMBOL
         row.each_index do |c|
           if c % 2 == 0
             symbol = return_filler_if_symbol_does_not_exist([r,c])[1]
-            print_symbol(symbol)
+            yield symbol
           else
             symbol = return_filler_if_symbol_does_not_exist([r,c])[0]
-            print_symbol(symbol)
+            yield symbol
           end
         end
-        @win.addstr("\n")
+        yield NEW_LINE_SYMBOL
         r += 1
-      end
-      Curses.refresh
-      return @win
-    end
-
-    def print_symbol(symbol)
-      begin
-        color = symbol[:color] || Curses::COLOR_WHITE
-      rescue TypeError
-        binding.pry
-      end
-      attribute = symbol[:attribute] || Curses::A_NORMAL
-      Curses.init_pair(color, color, Curses::COLOR_BLACK)
-      @win.attron(Curses.color_pair(color)|attribute) do
-        @win.addstr(symbol[:shape])
       end
     end
 

@@ -4,11 +4,11 @@ module Base
   module PlayerUtils
 
   def get_input(info_string = nil)
-    i_win = @game_board.refresh_board!
-    @board_window.addstr(info_string)
-    resp = @board_window.getch
+    i_win = @user_interface.refresh_board!
+    @user_interface.board_window.addstr(info_string)
+    resp = @user_interface.board_window.getch
     i_win.clear
-    @game_board.refresh_board!
+    @user_interface.refresh_board!
     return resp
   end
 
@@ -17,7 +17,7 @@ module Base
       @game_board.move_piece(@game_piece,location)
       return "done"
     rescue IllegalMove => e
-      @game_board.refresh_board!
+      @user_interface.refresh_board!
       return "#{e}\nPress Ctrl + C to quit, or try again."
     end
   end
@@ -27,7 +27,7 @@ module Base
       @game_piece.spawn_piece(spell,location)
       return "done"
     rescue IllegalMove, ArgumentError => e
-      @game_board.refresh_board!
+      @user_interface.refresh_board!
       return "#{e}\nPress q to not cast a spell, or try again."
     end
   end
@@ -52,7 +52,7 @@ module Base
 
   def show_list(list, list_position, message)
     spell_list = construct_spell_list(list)
-    list_win = @game_board.refresh_board!
+    list_win = @user_interface.refresh_board!
     list_win.addstr(message + "\n")
     spell_list.each_with_index do |word, i|
       list_win.addstr(word)
@@ -62,7 +62,7 @@ module Base
     response = list_win.getch
     response.downcase! if response.is_a? String
     list_win.clear
-    @game_board.refresh_board!
+    @user_interface.refresh_board!
     return response
   end
 

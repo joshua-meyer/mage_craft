@@ -8,6 +8,9 @@ require square_board_path
 player_path = File.expand_path("../../lib/piece_controllers/player/player.rb",__FILE__)
 require player_path
 
+curses_path = File.expand_path("../../lib/user_interfaces/curses_ui.rb",__FILE__)
+require curses_path
+
 include Base
 
 module Base
@@ -24,8 +27,11 @@ PLAYER_CONTROLLER = {
   :function => :test_player
 }
 
+UI = CursesUI.new
+
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape: "TP",
     color: Curses::COLOR_CYAN,
@@ -42,6 +48,7 @@ BASE_CONTROLLER = {
 
 spawner = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "  ",
     color:     Curses::COLOR_WHITE,
@@ -57,6 +64,7 @@ GO_FORWARD_CONTROLLER = {
 
 red_missile = GamePiece.new({
   :controller =>        GO_FORWARD_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape: "<-",
     color: Curses::COLOR_RED,
@@ -69,6 +77,7 @@ red_missile = GamePiece.new({
 
 test_game = GameInstance.new(test_board,
   characters: [test_piece,red_missile],
+  user_interface: UI,
   win_conditions: [
     Proc.new { test_board.location_of_piece(red_missile).nil? }
   ],

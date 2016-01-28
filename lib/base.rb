@@ -7,6 +7,8 @@ module Base
   class IllegalMove < StandardError; end
   class FormatError < StandardError; end
 
+  NEW_LINE_SYMBOL = "\n"
+
   SYMBOL_FOR_UNKNOWN = {
     shape: "??",
     color: Curses::COLOR_RED,
@@ -20,7 +22,7 @@ module Base
   end
 
   def display_end_message(game_instance, message, curses_color)
-    end_screen = game_instance.game_board.refresh_board!
+    end_screen = game_instance.user_interface.refresh_board!
     Curses.init_pair(curses_color, curses_color, Curses::COLOR_BLACK)
     end_screen.attron(Curses.color_pair(curses_color)|Curses::A_BLINK) do
       end_screen.addstr(message)

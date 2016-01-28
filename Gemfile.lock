@@ -25,6 +25,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    ruby-try (1.1.1)
     slop (3.6.0)
 
 PLATFORMS
@@ -36,6 +37,7 @@ DEPENDENCIES
   dispel
   pry
   rspec
+  ruby-try
 
 BUNDLED WITH
    1.10.6

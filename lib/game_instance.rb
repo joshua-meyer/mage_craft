@@ -10,13 +10,21 @@ require game_board_path
 module Base
   class GameInstance
     include GameInstanceUtils
-    attr_reader :game_board, :characters, :win_conditions, :lose_conditions, :turn_number
+    attr_reader :game_board, :characters, :win_conditions, :lose_conditions, :turn_number, :user_interface
     attr_accessor :ncps, :spectate
 
-    def initialize(game_board, win_conditions: [], lose_conditions: [],
+    def initialize(game_board,
+          win_conditions: [], lose_conditions: [],
           if_win_do: DEFAULT_IF_WIN_DO, if_lose_do: DEFAULT_IF_LOSE_DO,
-          characters: [], ncps: [], spectate: false)
+          characters: [], ncps: [],
+          user_interface: nil, spectate: false
+        )
       @game_board = game_board
+      @user_interface = user_interface
+      @user_interface.game_instance = self
+      @user_interface.game_board = game_board
+      @user_interface.new_screen!
+
       @characters = characters
       @characters.each { |character| err_unless_piece_is_on_the_board(character, @game_board) }
       @ncps = ncps

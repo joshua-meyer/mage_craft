@@ -9,7 +9,6 @@ require square_utils_path
 module Base
   class SquareGameBoard < BaseGameBoard
     include SquareBoardUtils
-    attr_reader :left_edge_position, :bottom_edge_position
     BLANK_SPACE = { :shape => "[]", :color => Curses::COLOR_WHITE, :attribute => Curses::A_DIM }
 
     def generate_board(n,k = n)
@@ -25,36 +24,16 @@ module Base
       return board
     end
 
-    def start_board!
-      board_width = @game_board.first.count * 2 + 1
-      board_height = @game_board.count + 2
-      @left_edge_position = (Curses.cols / 2) - (board_width / 2)
-      top_edge_position = (Curses.lines / 2) - (board_height / 2)
-      window_height = Curses.lines - top_edge_position
-      window_width = Curses.cols - @left_edge_position
-      @win = Curses::Window.new(window_height, window_width, top_edge_position, @left_edge_position)
-      @bottom_edge_position = (Curses.lines / 2) + (board_height / 2) + 1
-      refresh_board!
-    end
-
-    def refresh_board!
-      @win.clear
-      @win.setpos(0, 0)
-      @win.addstr("\n")
+    def yield_elements_of_board
+      yield NEW_LINE_SYMBOL
       @game_board.each_with_index do |row, i|
         row.each_index do |j|
           symbol = symbol_at([i,j])
-          color = symbol[:color] || Curses::COLOR_WHITE
-          attribute = symbol[:attribute] || Curses::A_NORMAL
-          Curses.init_pair(color, color, Curses::COLOR_BLACK)
-          @win.attron(Curses.color_pair(color)|attribute) do
-            @win.addstr(symbol[:shape])
-          end
+          yield symbol
         end
-        @win.addstr("\n")
+        yield NEW_LINE_SYMBOL
       end
-      Curses.refresh
-      return @win
+      yield NEW_LINE_SYMBOL
     end
 
   end

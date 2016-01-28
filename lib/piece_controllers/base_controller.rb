@@ -5,12 +5,14 @@ require game_instance_path
 
 module Base
   class BaseController
+    attr_reader :game_board, :game_piece, :sub_controllers, :turn_variables, :user_interface
 
     def initialize(hash_args)
       @game_board = hash_args[:game_board]
       @game_piece = hash_args[:game_piece]
       @sub_controllers = hash_args[:sub_controllers]
       @turn_variables = []
+      @user_interface = hash_args[:user_interface]
     end
 
     def current_location(game_board,game_piece)

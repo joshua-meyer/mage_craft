@@ -7,16 +7,19 @@ require piece_utils_path
 game_board_path = File.expand_path("../base_game_board.rb", __FILE__)
 require game_board_path
 
+require 'ruby-try'
+
 module Base
   class GamePiece
     include GamePieceUtils
 
     attr_reader :controller_class, :controller, :symbol, :game_board, :has_substance, :manna, :parent_piece,
-    :vfps, :vfps_updatable, :spells, :sensors, :turn_spawned
+    :vfps, :vfps_updatable, :spells, :sensors, :turn_spawned, :user_interface
 
     def initialize(hash_args)
       @controller_class = load_controller_class_from_symbol(hash_args[:controller][:function])
       @game_board = hash_args[:game_board]
+      @user_interface = hash_args[:user_interface] || game_board.game_instance.try(:user_interface)
       @sub_controllers = hash_args[:controller][:arguments]
       # Initializing the controller requires that all of the above instance variables be set.
       @controller = @controller_class.new(game_variables)
@@ -38,7 +41,8 @@ module Base
       {
         :game_board =>  @game_board,
         :game_piece =>  self,
-        :sub_controllers => @sub_controllers
+        :sub_controllers => @sub_controllers,
+        :user_interface => user_interface
       }
     end
 
@@ -96,7 +100,8 @@ module Base
         :spells =>            template[:spells],
         :game_board =>        @game_board,
         :parent_piece =>      self,
-        :starting_position => location
+        :starting_position => location,
+        :user_interface =>    user_interface
       })
       @game_board.game_instance.ncps << new_piece if @game_board.game_instance
 

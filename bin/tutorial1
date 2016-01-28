@@ -10,6 +10,9 @@ require square_board_path
 player_path = File.expand_path("../../lib/piece_controllers/player/player.rb",__FILE__)
 require player_path
 
+curses_path = File.expand_path("../../lib/user_interfaces/curses_ui.rb",__FILE__)
+require curses_path
+
 include Base
 
 module Base
@@ -26,8 +29,11 @@ BASE_CONTROLLER = {
   :function => :base_controller
 }
 
+UI = CursesUI.new
+
 wall = GamePiece.new({
   :controller =>    BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "  ",
     color:     Curses::COLOR_WHITE,
@@ -56,6 +62,7 @@ end
 
 door1 = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "||",
     color:     Curses::COLOR_YELLOW,
@@ -66,6 +73,7 @@ door1 = GamePiece.new({
 })
 door2 = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "==",
     color:     Curses::COLOR_YELLOW,
@@ -76,6 +84,7 @@ door2 = GamePiece.new({
 })
 victory = GamePiece.new({
   :controller =>        BASE_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "[]",
     color:     Curses::COLOR_GREEN,
@@ -91,6 +100,7 @@ PLAYER_CONTROLLER = {
 
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => {
     shape:     "TP",
     color:     Curses::COLOR_CYAN,
@@ -103,6 +113,7 @@ test_piece = GamePiece.new({
 })
 
 test_game = GameInstance.new(test_board,
+  user_interface: UI,
   characters: [test_piece],
   win_conditions: [
     Proc.new { test_board.location_of_piece(test_piece) == [10,20] }

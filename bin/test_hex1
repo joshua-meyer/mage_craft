@@ -5,6 +5,9 @@ require file_path
 square_board_path = File.expand_path("../../lib/game_boards/hex_board.rb",__FILE__)
 require square_board_path
 
+curses_path = File.expand_path("../../lib/user_interfaces/curses_ui.rb",__FILE__)
+require curses_path
+
 include Base
 
 test_board = HexGameBoard.new(10)
@@ -27,8 +30,11 @@ PLAYER_CONTROLLER = {
   :function => :player
 }
 
+UI = CursesUI.new
+
 test_piece = GamePiece.new({
   :controller =>        PLAYER_CONTROLLER,
+  :user_interface =>    UI,
   :symbol => [
     { :shape => "test", :color => Curses::COLOR_BLUE, :attribute => Curses::A_DIM },
     { :shape => "pice", :color => Curses::COLOR_BLUE, :attribute => Curses::A_DIM }
@@ -44,6 +50,7 @@ test_piece = GamePiece.new({
 
 
 test_game = GameInstance.new(test_board,
+  :user_interface =>    UI,
   characters: [test_piece]
 )
 
