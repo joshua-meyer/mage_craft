@@ -1,5 +1,5 @@
-game_instance_path = File.expand_path("../../../lib/game_instance.rb", __FILE__)
-require game_instance_path
+base_spec_path = File.expand_path("../../base_spec.rb", __FILE__)
+require base_spec_path
 
 include Base
 

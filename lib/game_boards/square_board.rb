@@ -1,11 +1,3 @@
-require "curses"
-
-base_board_path = File.expand_path("../../base_game_board.rb",__FILE__)
-require base_board_path
-
-square_utils_path = File.expand_path("../board_utils/square_board_utils.rb",__FILE__)
-require square_utils_path
-
 module Base
   class SquareGameBoard < BaseGameBoard
     include SquareBoardUtils

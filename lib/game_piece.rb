@@ -1,12 +1,3 @@
-base_path = File.expand_path("../base.rb", __FILE__)
-require base_path
-
-piece_utils_path = File.expand_path("../utils/game_piece_utils.rb", __FILE__)
-require piece_utils_path
-
-game_board_path = File.expand_path("../base_game_board.rb", __FILE__)
-require game_board_path
-
 require 'ruby-try'
 
 module Base
@@ -17,7 +8,7 @@ module Base
     :vfps, :vfps_updatable, :spells, :sensors, :turn_spawned, :user_interface
 
     def initialize(hash_args)
-      @controller_class = load_controller_class_from_symbol(hash_args[:controller][:function])
+      @controller_class = fetch_class_from_symbol(hash_args[:controller][:function])
       @game_board = hash_args[:game_board]
       @user_interface = hash_args[:user_interface] || game_board.try(:game_instance).try(:user_interface)
       @sub_controllers = hash_args[:controller][:arguments]
@@ -50,7 +41,7 @@ module Base
       @sensors = {}
       if sensor_list
         sensor_list.each do |sensor|
-          @sensors[sensor] = load_controller_class_from_symbol(sensor)
+          @sensors[sensor] = fetch_class_from_symbol(sensor)
         end
       end
       return "done"

@@ -1,12 +1,9 @@
-base_controller_file = File.expand_path("../../base_controller.rb",__FILE__)
-require base_controller_file
-
 module Base
   class TurnAndGo < BaseController
 
     def initialize(hash_args)
       super(hash_args)
-      go_forward_class = load_controller_class_from_symbol(:go_forward)
+      go_forward_class = fetch_class_from_symbol(:go_forward)
       @go_forward_instance = go_forward_class.new({
         :game_board => @game_board,
         :game_piece => @game_piece

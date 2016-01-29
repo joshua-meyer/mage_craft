@@ -1,12 +1,3 @@
-base_path = File.expand_path("../base.rb",__FILE__)
-require base_path
-
-instance_utils_path = File.expand_path("../utils/game_instance_utils.rb",__FILE__)
-require instance_utils_path
-
-game_board_path = File.expand_path("../base_game_board.rb",__FILE__)
-require game_board_path
-
 module Base
   class GameInstance
     include GameInstanceUtils

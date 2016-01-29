@@ -1,8 +1,3 @@
-require "curses"
-
-base_path = File.expand_path("../../base_controller.rb", __FILE__); require base_path
-utils_path = File.expand_path("../player_utils.rb", __FILE__); require utils_path
-
 module Base
   class Player < BaseController
     include PlayerUtils

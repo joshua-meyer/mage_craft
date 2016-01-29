@@ -1,5 +1,3 @@
-require "curses"
-
 module Base
   module PlayerUtils
 

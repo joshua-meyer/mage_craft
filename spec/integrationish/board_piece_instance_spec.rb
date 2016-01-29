@@ -1,11 +1,5 @@
-square_board_path = File.expand_path("../../../lib/game_boards/square_board.rb", __FILE__)
-require square_board_path
-
-game_piece_path = File.expand_path("../../../lib/game_piece.rb", __FILE__)
-require game_piece_path
-
-game_instance_path = File.expand_path("../../../lib/game_instance.rb", __FILE__)
-require game_instance_path
+base_spec_path = File.expand_path("../../base_spec.rb", __FILE__)
+require base_spec_path
 
 include Base
 

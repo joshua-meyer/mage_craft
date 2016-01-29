@@ -1,12 +1,3 @@
-base_board_path = File.expand_path("../../base_game_board.rb",__FILE__)
-require base_board_path
-
-hex_utils_path = File.expand_path("../board_utils/hex_board_utils.rb",__FILE__)
-require hex_utils_path
-
-square_board_path = File.expand_path("../square_board.rb",__FILE__)
-require square_board_path
-
 module Base
   class HexGameBoard < SquareGameBoard
     include HexBoardUtils

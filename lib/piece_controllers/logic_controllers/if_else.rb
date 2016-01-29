@@ -1,6 +1,3 @@
-base_controller_file = File.expand_path("../../base_controller.rb",__FILE__)
-require base_controller_file
-
 module Base
   class IfElse < BaseController
 
@@ -11,7 +8,7 @@ module Base
         sub_controller = @sub_controllers[false]
       end
 
-      sub_controller_class = load_controller_class_from_symbol(sub_controller[:function])
+      sub_controller_class = fetch_class_from_symbol(sub_controller[:function])
 
       unless sub_controller[:instance]
         sub_controller[:instance] = sub_controller_class.new({

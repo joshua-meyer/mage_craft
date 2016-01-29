@@ -1,15 +1,6 @@
 #!/usr/bin/env ruby
-file_path = File.expand_path("../../lib/game_instance.rb",__FILE__)
-require file_path
-
-square_board_path = File.expand_path("../../lib/game_boards/square_board.rb",__FILE__)
-require square_board_path
-
-player_path = File.expand_path("../../lib/piece_controllers/player/player.rb",__FILE__)
-require player_path
-
-curses_path = File.expand_path("../../lib/user_interfaces/curses_ui.rb",__FILE__)
-require curses_path
+base_file_path = File.expand_path("../../lib/base.rb",__FILE__)
+require base_file_path
 
 include Base
 

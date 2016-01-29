@@ -1,5 +1,4 @@
-base_ui_file = File.expand_path("../base_ui.rb", __FILE__)
-require base_ui_file
+require 'curses'
 
 module Base
   class CursesUI < BaseUI

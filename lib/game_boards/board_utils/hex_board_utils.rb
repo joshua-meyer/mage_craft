@@ -1,6 +1,3 @@
-square_utils_path = File.expand_path("../square_board_utils.rb",__FILE__)
-require square_utils_path
-
 module Base
   module HexBoardUtils
     include SquareBoardUtils
