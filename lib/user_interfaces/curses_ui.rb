@@ -1,7 +1,8 @@
+base_ui_file = File.expand_path("../base_ui.rb", __FILE__)
+require base_ui_file
+
 module Base
-  class CursesUI
-    attr_reader :left_edge_position, :bottom_edge_position, :board_window
-    attr_accessor :game_board, :game_instance
+  class CursesUI < BaseUI
 
     def new_screen!
       Curses.init_screen
@@ -30,9 +31,7 @@ module Base
     def refresh_board!
       @win.clear
       @win.setpos(0, 0)
-      @game_board.yield_elements_of_board do |symbol|
-        print_symbol(symbol)
-      end
+      super
       Curses.refresh
       return @win
     end
